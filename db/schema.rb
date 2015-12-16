@@ -11,10 +11,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151216175910) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+ActiveRecord::Schema.define(version: 20151216175910) do
 
   create_table "fixtures", force: :cascade do |t|
     t.integer  "game_week"
@@ -34,4 +32,5 @@ ActiveRecord::Schema.define(version: 20151216175910) do
   end
 
   add_foreign_key "fixtures", "teams"
+
 end
