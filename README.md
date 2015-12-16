@@ -6,3 +6,5 @@ Our wonderful group consists of:
 - Mari-Ann
 - Ivan
 - Mateja
+
+We are the best team (especially Mateja)
