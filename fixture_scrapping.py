@@ -21,18 +21,18 @@ while week < 39:
     #scrape the website for the games played and points
     hometeam = soup.findAll("td", {"class":"ismHomeTeam"})
     awayteam = soup.findAll("td", {"class":"ismAwayTeam"})
-    score = soup.findAll("td", {"class":"ismScore"})
+
     i = 0
 
     #Keep looping until the code fails
     while True:
             try:
-                    fix_file.write(str(week) + ',' + hometeam[i].text + ',' + score[i].text + ',' + awayteam[i].text.strip() + ',' + '\n')
+                    fix_file.write(str(week) + ',' + hometeam[i].text + ',' + awayteam[i].text.strip() + '\n')
                     i += 1
             except:
                     break
 
-            week += 1
+    week += 1
 
 fix_file.close()
 
