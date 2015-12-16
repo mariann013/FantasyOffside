@@ -31,6 +31,7 @@ while i < 650:
         #Extract player team
         teamname = data["team_name"]
         #Extract player position
+        teamid = data["team_id"]
         position = data["type_name"]
         #Extract the players price
         price = data["now_cost"]/10.0
@@ -71,7 +72,7 @@ while i < 650:
             mystring4 = mystring3.replace("'", "")
 
             #Write the data to the file
-            myfile.write(mystring4 + "," + playerdata + "," + teamname + "," + position + "," + selected + "," + form + "," + goalsscored + "," + goalsassisted + "," + cleansheets + "," + goalsconceded + "," + owngoals + "," + yellowcards + "," + redcards + "," + minutesplayed + "," + str(price) + ',' + str(i) + "\n")
+            myfile.write(mystring4 + "," + playerdata + "," + teamname + "," + "," + team_id + position + "," + selected + "," + form + "," + goalsscored + "," + goalsassisted + "," + cleansheets + "," + goalsconceded + "," + owngoals + "," + yellowcards + "," + redcards + "," + minutesplayed + "," + str(price) + ',' + str(i) + "\n")
     except:
             # Write all of the numbers for which there was errors to a file
             # print "it didnt work"
