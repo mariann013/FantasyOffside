@@ -14,6 +14,7 @@ week = 1
 fix_file = open('fixtures.txt', 'w')
 while week < 39:
     myurl = base + str(week)
+    print myurl
     html = urllib.urlopen(myurl).read()
     soup = BeautifulSoup(html)
     fixture_table = soup.find("table", {"class":"ismFixtureTable"})
