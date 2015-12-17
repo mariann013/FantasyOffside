@@ -1,0 +1,20 @@
+1,Leicester,16,35
+2,Arsenal,16,33
+3,Man City,16,32
+4,Man Utd,16,29
+5,Spurs,16,26
+6,Crystal Palace,16,26
+7,Watford,16,25
+8,West Ham,16,24
+9,Liverpool,16,24
+10,Everton,16,23
+11,Stoke,16,23
+12,Southampton,16,21
+13,West Brom,16,20
+14,Bournemouth,16,16
+15,Newcastle,16,16
+16,Chelsea,16,15
+17,Swansea,16,14
+18,Norwich,16,14
+19,Sunderland,16,12
+20,Aston Villa,16,6
