@@ -5,10 +5,21 @@ import io
 from bs4 import BeautifulSoup
 import os
 import psycopg2
+import urlparse
 import sys
 
-conn_str = "host='localhost' dbname='FantasyOffside_development'"
-conn = psycopg2.connect(conn_str)
+urlparse.uses_netloc.append("postgres")
+
+url = urlparse.urlparse(os.environ["DATABASE_URL"])
+
+conn = psycopg2.connect(
+    database=url.path[1:],
+    user=url.username,
+    password=url.password,
+    host=url.hostname,
+    port=url.port
+)
+
 conn.autocommit = True
 cursor = conn.cursor()
 
