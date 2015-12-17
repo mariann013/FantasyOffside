@@ -4,10 +4,27 @@ import re
 import io
 from bs4 import BeautifulSoup
 import os
+import psycopg2
+import urlparse
+import sys
 
-#####################################################################
-# Extract all of the player based information from the website #
-#####################################################################
+urlparse.uses_netloc.append("postgres")
+
+url = urlparse.urlparse(os.environ["DATABASE_URL"])
+
+conn = psycopg2.connect(
+    database=url.path[1:],
+    user=url.username,
+    password=url.password,
+    host=url.hostname,
+    port=url.port
+)
+
+conn.autocommit = True
+cursor = conn.cursor()
+
+sys.stdout.write("Scraping players! ")
+sys.stdout.flush()
 i = 1
 while i < 650:
     htmltext = urllib.urlopen("http://fantasy.premierleague.com/web/api/elements/" + str(i) +
@@ -16,26 +33,22 @@ while i < 650:
     try:
 #Use the json command to read in the json file
         data = json.load(htmltext)
-        goalsscored = str(data["goals_scored"])
-        # print goalsscored
-        goalsassisted = str(data["assists"])
-        # print goalsassisted
-        cleansheets = str(data["clean_sheets"])
-        # print cleansheets
-        goalsconceded = str(data["goals_conceded"])
-        # print goalsconceded
-        owngoals = str(data["own_goals"])
-        # print owngoals
-        yellowcards = str(data["yellow_cards"])
-        # print yellowcards
-        redcards = str(data["red_cards"])
-        # print redcards
+        goals_scored = data["goals_scored"]
+        goals_assisted = data["assists"]
+        cleansheets = data["clean_sheets"]
+        goals_conceded = data["goals_conceded"]
+        owngoals = data["own_goals"]
+        yellowcards = data["yellow_cards"]
+        redcards = data["red_cards"]
         minutesplayed = data["minutes"]
-        # print minutesplayed
-        #Open the file using the io.open with encoding='utf8' to counteract irregual characters
-        myfile = io.open("player_history.txt", "a", encoding='utf8')
-        #Append the data to the file
-    print i
+
+        cursor.execute("INSERT INTO players VALUES (%s, %s, %s, %s, %s)",
+            (i, playerdata, teamid, position, price))
+    except:
+        pass
+
+    sys.stdout.write(".")
+    sys.stdout.flush()
+
     i += 1
-print "Player data scraped"
-##############################
+print " Done :)"

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151217143749) do
+ActiveRecord::Schema.define(version: 20151217153850) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,17 @@ ActiveRecord::Schema.define(version: 20151217143749) do
 
   add_index "fixtures", ["team_id"], name: "index_fixtures_on_team_id", using: :btree
 
+  create_table "player_season_totals", force: :cascade do |t|
+    t.integer "goals_scored"
+    t.integer "goals_assisted"
+    t.integer "cleansheets"
+    t.integer "goals_conceded"
+    t.integer "owngoals"
+    t.integer "yellowcards"
+    t.integer "redcards"
+    t.integer "minutesplayed"
+  end
+
   create_table "players", force: :cascade do |t|
     t.string  "playerdata"
     t.integer "teamid"
@@ -41,5 +52,4 @@ ActiveRecord::Schema.define(version: 20151217143749) do
   end
 
   add_foreign_key "fixtures", "teams"
-
 end
