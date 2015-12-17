@@ -41,4 +41,5 @@ ActiveRecord::Schema.define(version: 20151217143749) do
   end
 
   add_foreign_key "fixtures", "teams"
+
 end
