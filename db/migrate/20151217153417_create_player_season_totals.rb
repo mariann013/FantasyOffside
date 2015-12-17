@@ -3,12 +3,12 @@ class CreatePlayerSeasonTotals < ActiveRecord::Migration
     create_table :player_season_totals do |t|
       t.integer :goals_scored
       t.integer :goals_assisted
-      t.integer :cleansheets
+      t.integer :clean_sheets
       t.integer :goals_conceded
-      t.integer :owngoals
-      t.integer :yellowcards
-      t.integer :redcards
-      t.integer :minutesplayed
+      t.integer :own_goals
+      t.integer :yellow_cards
+      t.integer :red_cards
+      t.integer :minutes_played
 
       t.timestamps null: false
     end

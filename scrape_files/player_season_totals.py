@@ -27,23 +27,22 @@ sys.stdout.write("Scraping players! ")
 sys.stdout.flush()
 i = 1
 while i < 650:
-    htmltext = urllib.urlopen("http://fantasy.premierleague.com/web/api/elements/" + str(i) +
-"/")
+    htmltext = urllib.urlopen("http://fantasy.premierleague.com/web/api/elements/" + str(i) +"/")
 #Use a try-except block to ignore htmls that do not relate to players
     try:
 #Use the json command to read in the json file
         data = json.load(htmltext)
         goals_scored = data["goals_scored"]
         goals_assisted = data["assists"]
-        cleansheets = data["clean_sheets"]
+        clean_sheets = data["clean_sheets"]
         goals_conceded = data["goals_conceded"]
-        owngoals = data["own_goals"]
-        yellowcards = data["yellow_cards"]
-        redcards = data["red_cards"]
-        minutesplayed = data["minutes"]
+        own_goals = data["own_goals"]
+        yellow_cards = data["yellow_cards"]
+        red_cards = data["red_cards"]
+        minutes_played = data["minutes"]
 
-        cursor.execute("INSERT INTO players VALUES (%s, %s, %s, %s, %s)",
-            (i, playerdata, teamid, position, price))
+        cursor.execute("INSERT INTO player_season_totals VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+            (i, goals_scored, goals_assisted, clean_sheets, goals_conceded, own_goals, yellow_cards, red_cards, minutes_played))
     except:
         pass
 
