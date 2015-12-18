@@ -23,4 +23,11 @@ describe 'API' do
     expect(response.body).to eq "[[\"test_player\",\"test_team\",\"Goalkeeper\",5.5]]"
   end
 
+  it 'should throw an error is fplid is not a number', type: :request do
+    post getsquad_path(fplid: 'abcdef')
+    expect(response.status).to eq(400)
+    expect(response.content_type).to eq(Mime::JSON)
+    expect(response.body).to eq "Invalid team id number"
+  end
+
 end
