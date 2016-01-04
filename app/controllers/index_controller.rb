@@ -19,7 +19,7 @@ class IndexController < ApplicationController
         render json: "Invalid squad size", status: 400
       else
         playerOut = Player.find(squadArray.sample)
-        playerIn = ApplicationHelper.getPlayerIn(squadArray)
+        playerIn = ApplicationHelper.getPlayerIn(squadArray, playerOut)
         transfer = {
           out: playerOut.playerdata,
           in: playerIn.playerdata
