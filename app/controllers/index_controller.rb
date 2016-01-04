@@ -19,12 +19,7 @@ class IndexController < ApplicationController
         render json: "Invalid squad size", status: 400
       else
         playerOut = Player.find(squadArray.sample)
-        numToSkip = rand(Player.count)
-        playerIn = Player.offset(numToSkip).first
-        while (squadArray.include? playerIn.id)
-          numToSkip = rand(Player.count)
-          playerIn = Player.offset(numToSkip).first
-        end
+        playerIn = ApplicationHelper.getPlayerIn(squadArray)
         transfer = {
           out: playerOut.playerdata,
           in: playerIn.playerdata

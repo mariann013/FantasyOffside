@@ -58,7 +58,7 @@ ActiveRecord::Schema.define(version: 20151217160658) do
     t.string  "playerdata"
     t.integer "teamid"
     t.string  "position"
-    t.integer "price"
+    t.float   "price"
   end
 
   create_table "teams", force: :cascade do |t|
