@@ -40,7 +40,7 @@ while i < 650:
         while n >= 0:
             scoredata = player_history[n]
             gameweek = scoredata[1]
-            if gameweek >= 12:
+            if gameweek >= 16:
                 minutes_played  = scoredata[3]
                 goals_scored    = scoredata[4]
                 assists         = scoredata[5]
