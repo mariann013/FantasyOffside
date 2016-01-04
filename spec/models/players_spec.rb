@@ -10,7 +10,7 @@ describe Player, type: :model do
     DatabaseCleaner.clean
     player = Player.create(playerdata: "test_player", teamid: 1, position: "Goalkeeper", price: 5.5)
     i = 1
-    while i <= 650
+    while i <= 20
       Player.create(playerdata: "test")
       PlayerGameweekTotal.create(playerid: i, gameweek: '5', total_points: '4')
       i += 1
@@ -21,7 +21,7 @@ describe Player, type: :model do
     PlayerGameweekTotal.create(playerid: "1", gameweek: '3', total_points: '3')
     PlayerGameweekTotal.create(playerid: "1", gameweek: '2', total_points: '4')
     PlayerGameweekTotal.create(playerid: '1', gameweek: '1', total_points: '4')
-    Player.update_gk
+    Player.update_projections
     player = Player.find(1)
     expect(player.projected_points).to eq(4)
   end
