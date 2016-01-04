@@ -1,3 +1,4 @@
+require './app/models/player.rb'
 namespace :projections do
 
   desc "update player point projections"
