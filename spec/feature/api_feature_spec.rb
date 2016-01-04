@@ -30,11 +30,40 @@ describe 'API' do
     expect(response.body).to eq "Invalid team id number"
   end
 
-  it 'should throw an error if no fplid is provided', type: :request do
+  it 'should throw an error if a blank fplid is provided', type: :request do
     post getsquad_path(fplid: '')
     expect(response.status).to eq(400)
     expect(response.content_type).to eq(Mime::JSON)
-    expect(response.body).to eq "Must provide team id"
+    expect(response.body).to eq "Invalid team id number"
+  end
+
+  it 'should throw an error if no parameter is provided', type: :request do
+    post getsquad_path()
+    expect(response.status).to eq(400)
+    expect(response.content_type).to eq(Mime::JSON)
+    expect(response.body).to eq "Invalid team id number"
+  end
+
+  it 'should throw an error if squad is not provided', type: :request do
+    post transfers_path()
+    expect(response.status).to eq(400)
+    expect(response.content_type).to eq(Mime::JSON)
+    expect(response.body).to eq "No squad provided"
+  end
+
+  it 'should throw an error if squad is blank', type: :request do
+    post transfers_path(squad: '')
+    expect(response.status).to eq(400)
+    expect(response.content_type).to eq(Mime::JSON)
+    expect(response.body).to eq "No squad provided"
+  end
+
+  it 'should throw an error if squad is not the correct size', type: :request do
+    squad = "[1,2,3,4,5,6,7,8,9,10,11,12,13,14]"
+    post transfers_path(squad: squad)
+    expect(response.status).to eq(400)
+    expect(response.content_type).to eq(Mime::JSON)
+    expect(response.body).to eq "Invalid squad size"
   end
 
 end

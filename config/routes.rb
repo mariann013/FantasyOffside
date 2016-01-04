@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   post 'getsquad' => 'index#getsquad', as: :getsquad
 
-  get 'transfers' => 'transfers#index'
+  post 'transfers' => 'index#transfers', as: :transfers
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
