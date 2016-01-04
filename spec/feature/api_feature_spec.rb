@@ -44,7 +44,7 @@ describe 'API' do
     expect(response.body).to eq "Invalid team id number"
   end
 
-  it 'should throw an error if squad is not provided', type: :request do
+  it 'should throw an error if no parameter is provided', type: :request do
     post transfers_path()
     expect(response.status).to eq(400)
     expect(response.content_type).to eq(Mime::JSON)
@@ -64,6 +64,28 @@ describe 'API' do
     expect(response.status).to eq(400)
     expect(response.content_type).to eq(Mime::JSON)
     expect(response.body).to eq "Invalid squad size"
+  end
+
+  it 'should suggest a transfer based on the provided squad', type: :request do
+    DatabaseCleaner.clean
+
+    Player.create(playerdata: "player1", teamid: 1, position: "Goalkeeper", price: 1)
+
+    14.times do
+      Player.create(playerdata: "player", teamid: 1, position: "Goalkeeper", price: 1)
+    end
+
+    Player.create(playerdata: "player16", teamid: 1, position: "Goalkeeper", price: 1)
+
+    squad = "[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]"
+
+    allow_any_instance_of(Array).to receive(:sample).and_return(1)
+
+    post transfers_path(squad: squad)
+
+    expect(response.status).to eq(200)
+    expect(response.content_type).to eq(Mime::JSON)
+    expect(response.body).to eq('{"out":"player1","in":"player16"}')
   end
 
 end

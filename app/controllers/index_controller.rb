@@ -13,10 +13,26 @@ class IndexController < ApplicationController
 
   def transfers
     squad = params[:squad]
-    if !squad || squad == ""
-      render json: "No squad provided", status: 400
+    if squad && squad.length > 0
+      squadArray = JSON.parse(squad)
+      if squadArray.length < 15
+        render json: "Invalid squad size", status: 400
+      else
+        playerOut = Player.find(squadArray.sample)
+        numToSkip = rand(Player.count)
+        playerIn = Player.offset(numToSkip).first
+        while (squadArray.include? playerIn.id)
+          numToSkip = rand(Player.count)
+          playerIn = Player.offset(numToSkip).first
+        end
+        transfer = {
+          out: playerOut.playerdata,
+          in: playerIn.playerdata
+        }
+        render json: transfer, status: 200
+      end
     else
-      render json: "Invalid squad size", status: 400
+      render json: "No squad provided", status: 400
     end
   end
 
