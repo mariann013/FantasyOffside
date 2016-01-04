@@ -12,22 +12,17 @@ class IndexController < ApplicationController
   end
 
   def transfers
-    squad = params[:squad]
-    if squad && squad.length > 0
-      squadArray = JSON.parse(squad)
-      if squadArray.length < 15
-        render json: "Invalid squad size", status: 400
-      else
-        playerOut = Player.find(squadArray.sample)
-        playerIn = ApplicationHelper.getPlayerIn(squadArray, playerOut)
-        transfer = {
-          out: playerOut.playerdata,
-          in: playerIn.playerdata
-        }
-        render json: transfer, status: 200
-      end
+    if IndexHelper.parametersValid(params)
+      squadArray = JSON.parse(params[:squad])
+      playerOut = Player.find(squadArray.sample)
+      playerIn = IndexHelper.getPlayerIn(squadArray, playerOut, params[:cash])
+      transfer = {
+        out: playerOut.playerdata,
+        in: playerIn.playerdata
+      }
+      render json: transfer, status: 200
     else
-      render json: "No squad provided", status: 400
+      render json: "Invalid parameters", status: 400
     end
   end
 
