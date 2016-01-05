@@ -1,15 +1,20 @@
 module IndexHelper
 
-    def self.getPlayerIn(squad, playerOut, cash)
+  def self.getPlayerIn(squad, playerOut, cash)
       cashConstraint = playerOut.price + cash.to_f
-      numToSkip = rand(Player.count)
-      playerIn = Player.offset(numToSkip).first
+      i = 0
+      playerList = Player.order('projected_points desc')
+      playerIn = playerList[i]
       while playerInIsInvalid(playerOut, playerIn, cashConstraint, squad)
-        numToSkip = rand(Player.count)
-        playerIn = Player.offset(numToSkip).first
+        i += 1
+        playerIn = playerList[i]
       end
       playerIn
     end
+
+    #
+    # def self.teamParametersValid(new_squad)
+    # end
 
     private
 
@@ -22,17 +27,20 @@ module IndexHelper
     end
 
     def self.withinMaxPlayersPerTeam(playerIn, playerOut, squad)
-      squad.delete(playerOut.id)
-      counts = {}
-      squad.each do |playerId|
-        teamid = Player.find(playerId).teamid
-        if counts[teamid]
-          counts[teamid] += 1
-        else
-          counts[teamid] = 1
+      if playerIn.teamid == playerOut.teamid
+        true
+      else
+        counts = {}
+        squad.each do |playerId|
+          teamid = Player.find(playerId).teamid
+          if counts[teamid]
+            counts[teamid] += 1
+          else
+            counts[teamid] = 1
+          end
         end
+        counts[playerIn.teamid].nil? || counts[playerIn.teamid] < 3
       end
-      counts[playerIn.teamid].nil? || counts[playerIn.teamid] < 3
     end
 
     def self.parametersValid(params)
