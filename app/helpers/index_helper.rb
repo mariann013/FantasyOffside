@@ -12,9 +12,9 @@ module IndexHelper
       playerIn
     end
 
-    #
-    # def self.teamParametersValid(new_squad)
-    # end
+
+    def self.teamParametersValid(new_squad)
+    end
 
     private
 
