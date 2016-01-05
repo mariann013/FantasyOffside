@@ -130,25 +130,25 @@ describe 'API' do
       expect(response.body).to eq('{"out":"player","in":"player17"}')
     end
 
-
-    it 'should output the player in current suqad with fewest projected points', type: :request do
+    it 'should output the player in current squad with fewest projected points', type: :request do
       (1..4).each do |i|
         3.times do
           Player.create(playerdata: "player", teamid: i, position: "Goalkeeper", price: 1, projected_points: 5)
         end
       end
-       Player.create(playerdata: "player13", teamid: 6, position: "Goalkeeper", price: 1, projected_points: 4)
-       Player.create(playerdata: "player14", teamid: 10, position: "Goalkeeper", price: 1, projected_points: 7)
-       Player.create(playerdata: "player15", teamid: 11, position: "Goalkeeper", price: 1, projected_points: 8)
-       Player.create(playerdata: "player16", teamid: 11, position: "Goalkeeper", price: 1, projected_points: 7)
-       squad = "[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]"
-       allow_any_instance_of(Array).to receive(:sample).and_return(1)
-       get transfers_path(squad: squad, cash: 10)
-       expect(response.status).to eq(200)
-       expect(response.content_type).to eq(Mime::JSON)
-       expect(response.body).to eq('{"out":"player13","in":"player16"}')
+      Player.create(playerdata: "player13", teamid: 6, position: "Goalkeeper", price: 1, projected_points: 4)
+      Player.create(playerdata: "player14", teamid: 10, position: "Goalkeeper", price: 1, projected_points: 7)
+      Player.create(playerdata: "player15", teamid: 11, position: "Goalkeeper", price: 1, projected_points: 8)
+      Player.create(playerdata: "player16", teamid: 14, position: "Goalkeeper", price: 1, projected_points: 3)
+      Player.create(playerdata: "player17", teamid: 14, position: "Goalkeeper", price: 1, projected_points: 5)
+      squad = "[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]"
+      get transfers_path(squad: squad, cash: 10)
+      expect(response.status).to eq(200)
+      expect(response.content_type).to eq(Mime::JSON)
+      expect(response.body).to eq('{"out":"player13","in":"player17"}')
+    end
+  end
 
- end
 
     # describe 'team parameter validation' do
     #   it 'should throw an error if new squad is blank', type: :request do
@@ -214,5 +214,5 @@ describe 'API' do
         expect(response.body).to eq("Invalid parameters")
       end
     end
-  end
+  
 end

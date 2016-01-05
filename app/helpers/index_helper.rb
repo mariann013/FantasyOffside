@@ -1,26 +1,24 @@
 module IndexHelper
 
-    def self.getPlayerIn(squad, playerOut, cash)
+  def self.getPlayerIn(squad, playerOut, cash)
       cashConstraint = playerOut.price + cash.to_f
-      # numToSkip = rand(Player.count)
-      # playerIn = Player.offset(numToSkip).first
-      playerIn = Player.order('projected_points desc').first
-      i = 1
+      i = 0
+      playerList = Player.order('projected_points desc')
+      playerIn = playerList[i]
       while playerInIsInvalid(playerOut, playerIn, cashConstraint, squad)
-        playerIn = Player.order('projected_points desc').offset(i).first
         i += 1
+        playerIn = playerList[i]
       end
       playerIn
     end
 
-    def self.teamParametersValid(new_squad)
-    end
+    #
+    # def self.teamParametersValid(new_squad)
+    # end
 
     private
 
     def self.playerInIsInvalid(playerOut, playerIn, cashConstraint, squad)
-      p "player in line 23:"
-      p playerIn
       return true if squadContains(playerIn, squad)
       return true unless positionsMatch(playerIn, playerOut)
       return true unless withinBudget(playerIn, cashConstraint)
