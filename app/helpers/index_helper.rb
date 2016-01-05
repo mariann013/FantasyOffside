@@ -13,9 +13,14 @@ module IndexHelper
       playerIn
     end
 
+    def self.teamParametersValid(new_squad)
+    end
+
     private
 
     def self.playerInIsInvalid(playerOut, playerIn, cashConstraint, squad)
+      p "player in line 23:"
+      p playerIn
       return true if squadContains(playerIn, squad)
       return true unless positionsMatch(playerIn, playerOut)
       return true unless withinBudget(playerIn, cashConstraint)
@@ -24,17 +29,20 @@ module IndexHelper
     end
 
     def self.withinMaxPlayersPerTeam(playerIn, playerOut, squad)
-      squad.delete(playerOut.id)
-      counts = {}
-      squad.each do |playerId|
-        teamid = Player.find(playerId).teamid
-        if counts[teamid]
-          counts[teamid] += 1
-        else
-          counts[teamid] = 1
+      if playerIn.teamid == playerOut.teamid
+        true
+      else
+        counts = {}
+        squad.each do |playerId|
+          teamid = Player.find(playerId).teamid
+          if counts[teamid]
+            counts[teamid] += 1
+          else
+            counts[teamid] = 1
+          end
         end
+        counts[playerIn.teamid].nil? || counts[playerIn.teamid] < 3
       end
-      counts[playerIn.teamid].nil? || counts[playerIn.teamid] < 3
     end
 
     def self.parametersValid(params)

@@ -20,10 +20,25 @@ class IndexController < ApplicationController
         out: playerOut.playerdata,
         in: playerIn.playerdata
       }
+      data = {
+        transfer: {
+          out: playerOut.playerdata,
+          in: playerIn.playerdata
+        },
+        squad: "stuff"
+      }
       render json: transfer, status: 200
     else
       render json: "Invalid parameters", status: 400
     end
   end
+
+  # def suggested_team
+  #   if IndexHelper.teamParametersValid(params)
+  #     render json: team, status: 200
+  #   else
+  #     render json: "Invalid new squad parameters", status: 400
+  #   end
+  # end
 
 end
