@@ -2,11 +2,13 @@ module IndexHelper
 
     def self.getPlayerIn(squad, playerOut, cash)
       cashConstraint = playerOut.price + cash.to_f
-      numToSkip = rand(Player.count)
-      playerIn = Player.offset(numToSkip).first
+      # numToSkip = rand(Player.count)
+      # playerIn = Player.offset(numToSkip).first
+      playerIn = Player.order('projected_points desc').first
+      i = 1
       while playerInIsInvalid(playerOut, playerIn, cashConstraint, squad)
-        numToSkip = rand(Player.count)
-        playerIn = Player.offset(numToSkip).first
+        playerIn = Player.order('projected_points desc').offset(i).first
+        i += 1
       end
       playerIn
     end

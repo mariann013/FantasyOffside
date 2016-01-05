@@ -112,6 +112,24 @@ describe 'API' do
       expect(response.body).to eq('{"out":"player","in":"player17"}')
     end
 
+    it 'should suggest transfer which yields maximum projected points', type: :request do
+      (1..5).each do |i|
+        3.times do
+          Player.create(playerdata: "player", teamid: i, position: "Goalkeeper", price: 1, projected_points: 5)
+        end
+      end
+      Player.create(playerdata: "player16", teamid: 6, position: "Goalkeeper", price: 1, projected_points: 4)
+      Player.create(playerdata: "player17", teamid: 6, position: "Goalkeeper", price: 1, projected_points: 6)
+      Player.create(playerdata: "player18", teamid: 6, position: "Goalkeeper", price: 12, projected_points: 7)
+      Player.create(playerdata: "player19", teamid: 6, position: "Goalkeeper", price: 1, projected_points: 5)
+      squad = "[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]"
+      allow_any_instance_of(Array).to receive(:sample).and_return(1)
+      get transfers_path(squad: squad, cash: 10)
+      expect(response.status).to eq(200)
+      expect(response.content_type).to eq(Mime::JSON)
+      expect(response.body).to eq('{"out":"player","in":"player17"}')
+    end
+
 
     describe 'parameter validation' do
       it 'should throw an error if no parameter is provided', type: :request do
