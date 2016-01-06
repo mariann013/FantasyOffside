@@ -1,0 +1,3 @@
+fOffside.controller('FOffsideController', [function() {
+
+}]);
