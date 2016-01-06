@@ -7,6 +7,8 @@ Rails.application.routes.draw do
 
   get 'suggested_team' => 'index#suggested_team', as: :suggested_team
 
+  get 'optimiseSquad' => 'index#optimiseSquad', as: :optimiseSquad
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

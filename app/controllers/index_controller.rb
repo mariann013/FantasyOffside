@@ -11,39 +11,14 @@ class IndexController < ApplicationController
     end
   end
 
-  def transfers
+  def optimiseSquad
     if IndexHelper.parametersValid(params)
       squadArray = JSON.parse(params[:squad])
-      pointsHash = {}
-      i = 0
-      while i <= squadArray.length
-        Player.where(id: squadArray[i]).find_each do |player|
-          pointsHash[player.id] = player.projected_points
-        end
-        i += 1
-      end
-      newHash = pointsHash.sort_by {|_key, value| value}.first
-      playerOut = Player.find(newHash[0])
-      playerIn = IndexHelper.getPlayerIn(squadArray, playerOut, params[:cash])
-      # data = {
-        transfer = {
-          out: playerOut.playerdata,
-          in: playerIn.playerdata
-        }
-        # squad: "stuff"
-      # }
-      render json: transfer, status: 200
+      cash = (params[:cash])
+      render json: IndexHelper.getOptimisedSquadJSON(squadArray, cash)
     else
       render json: "Invalid parameters", status: 400
     end
   end
-
-  # def suggested_team
-  #   if IndexHelper.teamParametersValid(params)
-  #     render json: team, status: 200
-  #   else
-  #     render json: "Invalid new squad parameters", status: 400
-  #   end
-  # end
 
 end
