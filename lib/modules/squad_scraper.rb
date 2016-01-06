@@ -22,31 +22,10 @@ module SquadScraper
   end
 
   def self.lookupSquadFromIds(squad_ids)
-    # {
-    #   squad: {
-    #     gk: {name: "player01", teamid: 1, price: 0.5},
-    #     defenders: [{name: "player03", teamid: 3, price: 1.5},{name: "player04", teamid: 4, price: 2},{name: "player06", teamid: 1, price: 3},{name: "player07", teamid: 2, price: 3.5}],
-    #     midfielders: [{name: "player08", teamid: 3, price: 4},{name: "player10", teamid: 5, price: 5},{name: "player11", teamid: 1, price: 5.5},{name: "player12", teamid: 2, price: 6}],
-    #     attackers: [{name: "player13", teamid: 3, price: 6.5},{name: "player15", teamid: 5, price: 7.5}],
-    #     substitutes: {
-    #       gk: {name: "player02", teamid: 2, price: 1},
-    #       defenders: [{name: "player05", teamid: 5, price: 2.5}],
-    #       midfielders: [{name: "player09", teamid: 4, price: 4.5}],
-    #       attackers: [{name: "player14", teamid: 4, price: 7}]
-    #     }
-    #   },
-    #   playerids: [1,3,4,6,7,8,10,11,12,13,15,2,5,9,14],
-    #   formation: [1,4,4,2],
-    #   captain: {name: "player08", teamid: 3, price: 4},
-    #   vicecaptain: {name: "player10", teamid: 5, price: 5},
-    #   cash: 100.0
-    # }
-
-    
     squadJson = squad_ids.map do |id|
       player = Player.find(id)
-      team = Team.find(player.teamid)
-      [player.playerdata, team.name, player.position, player.price]
+      # team = Team.find(player.teamid)
+      player
     end
     squadJson
   end

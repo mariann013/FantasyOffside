@@ -38,22 +38,35 @@ describe 'API' do
 
       expected_parsed_body = {
         squad: {
-          gk: {name: "player01", teamid: 1, price: 0.5},
-          defenders: [{name: "player03", teamid: 3, price: 1.5},{name: "player04", teamid: 4, price: 2},{name: "player06", teamid: 1, price: 3},{name: "player07", teamid: 2, price: 3.5}],
-          midfielders: [{name: "player08", teamid: 3, price: 4},{name: "player10", teamid: 5, price: 5},{name: "player11", teamid: 1, price: 5.5},{name: "player12", teamid: 2, price: 6}],
-          attackers: [{name: "player13", teamid: 3, price: 6.5},{name: "player15", teamid: 5, price: 7.5}],
-          substitutes: {
-            gk: {name: "player02", teamid: 2, price: 1},
-            defenders: [{name: "player05", teamid: 5, price: 2.5}],
-            midfielders: [{name: "player09", teamid: 4, price: 4.5}],
-            attackers: [{name: "player14", teamid: 4, price: 7}]
-          }
+          gk: {id: 1, playerdata: "player01", image: "shirt_1_1.png", teamname: "team01", teamid: 1, position: "gk", price: 0.5, projected_points: 1},
+          defenders: [
+            {id: 3, playerdata: "player03", image: "shirt_3.png", teamname: "team03", teamid: 3, position: "def", price: 1.5, projected_points: 1},
+            {id: 4, playerdata: "player04", image: "shirt_4.png", teamname: "team04", teamid: 4, position: "def", price: 2, projected_points: 1},
+            {id: 6, playerdata: "player06", image: "shirt_1.png", teamname: "team01", teamid: 1, position: "def", price: 3, projected_points: 1},
+            {id: 7, playerdata: "player07", image: "shirt_2.png", teamname: "team02", teamid: 2, position: "def", price: 3.5, projected_points: 1}
+          ],
+          midfielders: [
+            {id: 8, playerdata: "player08", image: "shirt_3.png", teamname: "team03", teamid: 3, position: "mid", price: 4, projected_points: 3},
+            {id: 10, playerdata: "player10", image: "shirt_5.png", teamname: "team05", teamid: 5, position: "mid", price: 5, projected_points: 2},
+            {id: 11, playerdata: "player11", image: "shirt_1.png", teamname: "team01", teamid: 1, position: "mid", price: 5.5, projected_points: 1},
+            {id: 12, playerdata: "player12", image: "shirt_2.png", teamname: "team02", teamid: 2, position: "mid", price: 6, projected_points: 1}
+          ],
+          attackers: [
+            {id: 13, playerdata: "player13", image: "shirt_3.png", teamname: "team03", teamid: 3, position: "att", price: 6.5, projected_points: 1},
+            {id: 15, playerdata: "player15", image: "shirt_5.png", teamname: "team05", teamid: 5, position: "att", price: 7.5, projected_points: 1}
+          ],
+          substitutes: [
+            {id: 2, playerdata: "player02", image: "shirt_2_1.png", teamname: "team02", teamid: 2, position: "gk", price: 1, projected_points: 1},
+            {id: 5, playerdata: "player05", image: "shirt_5.png", teamname: "team05", teamid: 5, position: "def", price: 2.5, projected_points: 1},
+            {id: 9, playerdata: "player09", image: "shirt_4.png", teamname: "team04", teamid: 4, position: "mid", price: 4.5, projected_points: 1},
+            {id: 14, playerdata: "player14", image: "shirt_4.png", teamname: "team04", teamid: 4, position: "att", price: 7, projected_points: 1}
+          ]
         },
         playerids: [1,3,4,6,7,8,10,11,12,13,15,2,5,9,14],
         formation: [1,4,4,2],
-        captain: {name: "player08", teamid: 3, price: 4},
-        vicecaptain: {name: "player10", teamid: 5, price: 5},
-        cash: 100.0
+        captain: {id: 8, playerdata: "player08", teamid: 3, position: "mid", price: 4, projected_points: 3},
+        vicecaptain: {id: 10, playerdata: "player10", teamid: 5, position: "mid", price: 5, projected_points: 2},
+        cash: 5.2
       }
 
       allow(Watir::Browser).to receive(:new).and_return(browser)
@@ -68,6 +81,45 @@ describe 'API' do
       expect(response.status).to eq(200)
       expect(response.content_type).to eq(Mime::JSON)
       expect(response.body).to eq(expected_parsed_body)
+
+    end
+
+    it 'returns optimised squad json', type: :request do
+      expected_optimised_parsed_body = {
+        squad: {
+          gk: {id: 1, playerdata: "player01", image: "shirt_1_1.png", teamname: "team01", teamid: 1, position: "gk", price: 0.5, projected_points: 1},
+          defenders: [
+            {id: 3, playerdata: "player03", image: "shirt_3.png", teamname: "team03", teamid: 3, position: "def", price: 1.5, projected_points: 1},
+            {id: 4, playerdata: "player04", image: "shirt_4.png", teamname: "team04", teamid: 4, position: "def", price: 2, projected_points: 1},
+            {id: 6, playerdata: "player06", image: "shirt_1.png", teamname: "team01", teamid: 1, position: "def", price: 3, projected_points: 1},
+            {id: 7, playerdata: "player07", image: "shirt_2.png", teamname: "team02", teamid: 2, position: "def", price: 3.5, projected_points: 1}
+          ],
+          midfielders: [
+            {id: 8, playerdata: "player08", image: "shirt_3.png", teamname: "team03", teamid: 3, position: "mid", price: 4, projected_points: 3},
+            {id: 10, playerdata: "player10", image: "shirt_5.png", teamname: "team05", teamid: 5, position: "mid", price: 5, projected_points: 2},
+            {id: 11, playerdata: "player11", image: "shirt_1.png", teamname: "team01", teamid: 1, position: "mid", price: 5.5, projected_points: 1},
+            {id: 12, playerdata: "player12", image: "shirt_2.png", teamname: "team02", teamid: 2, position: "mid", price: 6, projected_points: 1}
+          ],
+          attackers: [
+            {id: 13, playerdata: "player13", image: "shirt_3.png", teamname: "team03", teamid: 3, position: "att", price: 6.5, projected_points: 1},
+            {id: 17, playerdata: "player17", image: "shirt_6.png", teamname: "team06", teamid: 6, position: "att", price: 8.5, projected_points: 2},
+          ],
+          substitutes: [
+            {id: 2, playerdata: "player02", image: "shirt_2_1.png", teamname: "team02", teamid: 2, position: "gk", price: 1, projected_points: 1},
+            {id: 5, playerdata: "player05", image: "shirt_5.png", teamname: "team05", teamid: 5, position: "def", price: 2.5, projected_points: 1},
+            {id: 9, playerdata: "player09", image: "shirt_4.png", teamname: "team04", teamid: 4, position: "mid", price: 4.5, projected_points: 1},
+            {id: 14, playerdata: "player14", image: "shirt_4.png", teamname: "team04", teamid: 4, position: "att", price: 7, projected_points: 1}
+          ]
+        },
+        transfers: {
+          out: {id: 15, playerdata: "player15", image: "shirt_5.png", teamname: "team05", teamid: 5, position: "att", price: 7.5, projected_points: 1},
+          in: {id: 17, playerdata: "player17", image: "shirt_6.png", teamname: "team06", teamid: 6, position: "att", price: 8.5, projected_points: 2}
+        }
+        formation: [1,4,4,2],
+        captain: {id: 8, playerdata: "player08", image: "shirt_3.png", teamname: "team03", teamid: 3, position: "mid", price: 4, projected_points: 3},
+        vicecaptain: {id: 10, playerdata: "player10", image: "shirt_5.png", teamname: "team05", teamid: 5, position: "mid", price: 5, projected_points: 2},
+        cash: 4.2
+      }
 
     end
 
