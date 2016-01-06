@@ -11,16 +11,11 @@ class IndexController < ApplicationController
     end
   end
 
-  def transfers
+  def optimiseSquad
     if IndexHelper.parametersValid(params)
       squadArray = JSON.parse(params[:squad])
-      playerOut = Player.find(squadArray.sample)
-      playerIn = IndexHelper.getPlayerIn(squadArray, playerOut, params[:cash])
-      transfer = {
-        out: playerOut.playerdata,
-        in: playerIn.playerdata
-      }
-      render json: transfer, status: 200
+      cash = (params[:cash])
+      render json: IndexHelper.getOptimisedSquadJSON(squadArray, cash)
     else
       render json: "Invalid parameters", status: 400
     end
