@@ -7,18 +7,62 @@ module IndexHelper
     squadArray = updateSquadForTransfers(squadArray, transfers)
     updated_cash = calc_cash(transfers, cash).round(1)
     lineup = pickLineup(squadArray)
-    # formation = getFormation(lineup)
+    formation = getFormation(lineup)
+    captain = pickCaptain(squadArray)
+    vicecaptain = pickViceCaptain(squadArray)
+    p vicecaptain
     return {
       squad: lineup,
       transfers: transfers,
-      formation: "",
-      captain: "",
-      vicecaptain: "",
+      formation: formation,
+      captain: captain,
+      vicecaptain: vicecaptain,
       cash: updated_cash
     }
   end
 
   private
+
+
+  def self.pickViceCaptain(squadArray)
+    i = 0
+    projected_pointsHash = {}
+    while i <= squadArray.length
+      Player.where(id: squadArray[i]).find_each do |player|
+          projected_pointsHash[player.id] = player.projected_points
+      end
+      i += 1
+    end
+    totalsquadArray = projected_pointsHash.sort_by {|_key, value| value }
+    firstplayer = totalsquadArray.last
+    totalsquadArray.delete(firstplayer)
+    secondplayer = totalsquadArray.last
+    totalsquadArray.delete(secondplayer)
+    thirdplayer = totalsquadArray.last
+    if PlayerFormatter.format(firstplayer[0])[:position] == "Goalkeeper" && PlayerFormatter.format(secondplayer[0])[:position] == "Goalkeeper"
+      PlayerFormatter.format(thirdplayer[0])
+    else
+      PlayerFormatter.format(secondplayer[0])
+    end
+  end
+
+  def self.pickCaptain(squadArray)
+    i = 0
+    projected_pointsHash = {}
+    while i <= squadArray.length
+      Player.where(id: squadArray[i]).find_each do |player|
+          projected_pointsHash[player.id] = player.projected_points
+      end
+      i += 1
+    end
+    newHash = projected_pointsHash.sort_by {|_key, value| value }.last
+    PlayerFormatter.format(newHash[0])
+  end
+
+  def self.getFormation(lineup)
+    formation = [1,lineup[:defenders].count, lineup[:midfielders].length, lineup[:forwards].length]
+  end
+
 
   def self.pickLineup(squadArray)
     squad_with_positions = {
