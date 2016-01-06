@@ -3,8 +3,40 @@ require 'watir'
 module SquadScraper
 
   def self.getSquadJSON(fplid)
-    squad_ids = scrapeSquad(fplid)
-    squadJSON = lookupSquadFromIds(squad_ids)
+    # squad_ids = scrapeSquad(fplid)
+    # squadJSON = lookupSquadFromIds(squad_ids)
+    return {
+      squad: {
+        goalkeeper: {id: 1, playerdata: "player01", image: "shirt_1_1.png", teamname: "team01", teamid: 1, position: "Goalkeeper", price: 0.5, projected_points: 1},
+        defenders: [
+          {id: 3, playerdata: "player03", image: "shirt_3.png", teamname: "team03", teamid: 3, position: "Defender", price: 1.5, projected_points: 1},
+          {id: 4, playerdata: "player04", image: "shirt_4.png", teamname: "team04", teamid: 4, position: "Defender", price: 2, projected_points: 1},
+          {id: 6, playerdata: "player06", image: "shirt_1.png", teamname: "team01", teamid: 1, position: "Defender", price: 3, projected_points: 1},
+          {id: 7, playerdata: "player07", image: "shirt_2.png", teamname: "team02", teamid: 2, position: "Defender", price: 3.5, projected_points: 1}
+        ],
+        midfielders: [
+          {id: 8, playerdata: "player08", image: "shirt_3.png", teamname: "team03", teamid: 3, position: "Midfielder", price: 4, projected_points: 3},
+          {id: 10, playerdata: "player10", image: "shirt_5.png", teamname: "team05", teamid: 5, position: "Midfielder", price: 5, projected_points: 2},
+          {id: 11, playerdata: "player11", image: "shirt_1.png", teamname: "team01", teamid: 1, position: "Midfielder", price: 5.5, projected_points: 1},
+          {id: 12, playerdata: "player12", image: "shirt_2.png", teamname: "team02", teamid: 2, position: "Midfielder", price: 6, projected_points: 1}
+        ],
+        forwards: [
+          {id: 13, playerdata: "player13", image: "shirt_3.png", teamname: "team03", teamid: 3, position: "Forward", price: 6.5, projected_points: 1},
+          {id: 15, playerdata: "player15", image: "shirt_5.png", teamname: "team05", teamid: 5, position: "Forward", price: 7.5, projected_points: 1}
+        ],
+        substitutes: [
+          {id: 2, playerdata: "player02", image: "shirt_2_1.png", teamname: "team02", teamid: 2, position: "Goalkeeper", price: 1, projected_points: 1},
+          {id: 5, playerdata: "player05", image: "shirt_5.png", teamname: "team05", teamid: 5, position: "Defender", price: 2.5, projected_points: 1},
+          {id: 9, playerdata: "player09", image: "shirt_4.png", teamname: "team04", teamid: 4, position: "Midfielder", price: 4.5, projected_points: 1},
+          {id: 14, playerdata: "player14", image: "shirt_4.png", teamname: "team04", teamid: 4, position: "Forward", price: 7, projected_points: 1}
+        ]
+      },
+      playerids: [1,3,4,6,7,8,10,11,12,13,15,2,5,9,14],
+      formation: [1,4,4,2],
+      captain: {id: 8, playerdata: "player08", teamid: 3, position: "Midfielder", price: 4, projected_points: 3},
+      vicecaptain: {id: 10, playerdata: "player10", teamid: 5, position: "Midfielder", price: 5, projected_points: 2},
+      cash: 5.2
+    }
   end
 
   def self.scrapeSquad(fplid)
@@ -42,7 +74,7 @@ module SquadScraper
     #   cash: 100.0
     # }
 
-    
+
     squadJson = squad_ids.map do |id|
       player = Player.find(id)
       team = Team.find(player.teamid)

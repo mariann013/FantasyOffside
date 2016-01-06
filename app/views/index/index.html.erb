@@ -4,12 +4,39 @@
     <h1>Fantasy Offside</h1>
       <script src="bower_components/angular/angular.js"></script>
       <script src="js/app.js"></script>
+      <script src="js/fOffsideController.js"></script>
   </head>
   -- Welcome to our magical page --
 
-  <body ng-controller="FOffisdeController as Ctrl">
-    <input type="text" placeholder="Please enter your team id"></input>
-    <button> Submit </button>
+  <body ng-controller="FOffsideController as Ctrl">
+    <div ng-show="Ctrl.showForm">
+      <form class="form-horizontal">
+        <input type="text" ng-model="Ctrl.inputId" placeholder="Please enter your team id">
+        <button class="btn" ng-click="Ctrl.getSquad()">Submit</button>
+      </form>
+    </div>
+
+    <div id=team>
+      <div>
+        {{Ctrl.goalkeeper}}
+      </div>
+      <div ng-repeat="defender in Ctrl.defenders">
+        {{defender}}
+      </div>
+
+      <div ng-repeat="midfielder in Ctrl.midfielders">
+        {{midfielder}}
+      </div>
+
+      <div ng-repeat="forward in Ctrl.forwards">
+        {{forward}}
+      </div>
+
+      <div ng-repeat="substitute in Ctrl.substitutes">
+        {{substitute}}
+      </div>
+    </div>
+
   </body>
 
 </html>
