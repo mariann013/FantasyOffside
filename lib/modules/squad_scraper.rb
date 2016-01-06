@@ -24,7 +24,7 @@ module SquadScraper
   def self.lookupSquadFromIds(squad_ids)
     squadJson = squad_ids.map do |id|
       player = Player.find(id)
-      # team = Team.find(player.teamid)
+      team = Team.find(player.teamid)
       player
     end
     squadJson

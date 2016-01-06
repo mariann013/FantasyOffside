@@ -1,3 +1,5 @@
+require './lib/modules/player_json_formatter.rb'
+
 module IndexHelper
 
   def self.getOptimisedSquadJSON(squadArray, cash)
@@ -8,19 +10,17 @@ module IndexHelper
     # optimum formation + team
 
     return {
-      team: {
-        gk: "",
-        defenders: ["","","",""],
-        midfielders: ["","","",""],
-        attackers: ["",""],
-        substitutes: ["","","",""]
-      },
+      squad: "",
+      transfers: transfers,
+      formation: "",
       captain: "",
       vicecaptain: "",
-      formation: "",
-      transfers: transfers
+      cash: ""
     }
   end
+
+
+
 
   private
 
@@ -47,30 +47,21 @@ module IndexHelper
     i = 0
     while i <= squadArray.length
       Player.where(id: squadArray[i]).find_each do |player|
-        pointsHash[player.id] = player.projected_points
+        pointsHash[player.id] = player.projected_points/player.price
       end
       i += 1
     end
     newHash = pointsHash.sort_by {|_key, value| value }.first
-    playerOut = Player.find(newHash[0])
-    playerIn = getPlayerIn(squadArray, playerOut, cash)
+    playerInId = getPlayerInId(squadArray, newHash[0], cash)
+
     return {
-      out: {
-        id: playerOut.id,
-        name: playerOut.playerdata,
-        teamid: playerOut.teamid,
-        price: playerOut.price
-      },
-      in: {
-        id: playerIn.id,
-        name: playerIn.playerdata,
-        teamid: playerIn.teamid,
-        price: playerIn.price
-      }
+      out: PlayerFormatter.format(newHash[0]),
+      in: PlayerFormatter.format(playerInId)
     }
   end
 
-  def self.getPlayerIn(squad, playerOut, cash)
+  def self.getPlayerInId(squad, playerOutId, cash)
+      playerOut = Player.find(playerOutId)
       cashConstraint = playerOut.price + cash.to_f
       i = 0
       playerList = Player.order('projected_points desc')
@@ -79,7 +70,7 @@ module IndexHelper
         i += 1
         playerIn = playerList[i]
       end
-      playerIn
+      playerIn.id
   end
 
   def self.playerInIsInvalid(playerOut, playerIn, cashConstraint, squad)
@@ -108,13 +99,7 @@ module IndexHelper
     end
   end
 
-  def self.parametersValid(params)
-    if params[:squad] && params[:cash]
-      squadValid(params[:squad]) && cashValid(params[:cash])
-    else
-      false
-    end
-  end
+
 
   def self.squadContains(player, squad)
     squad.include? player.id
@@ -138,6 +123,15 @@ module IndexHelper
   end
 
   def self.cashValid(cash)
-    cash.length > 0 && cash !~ /\D/
+    cash.length > 0
+    # && cash !~ /\D/
+  end
+
+  def self.parametersValid(params)
+    if params[:squad] && params[:cash]
+      squadValid(params[:squad]) && cashValid(params[:cash])
+    else
+      false
+    end
   end
 end
