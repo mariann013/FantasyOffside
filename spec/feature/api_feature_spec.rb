@@ -12,6 +12,65 @@ describe 'API' do
   end
 
   describe 'first test' do
+
+    it 'scrapes the user\'s squad and returns it in json', type: :request do
+
+      Player.create(playerdata: "player01", teamid: 1, position: "gk", price: 0.5)
+      Player.create(playerdata: "player02", teamid: 2, position: "gk", price: 1)
+      Player.create(playerdata: "player03", teamid: 3, position: "def", price: 1.5)
+      Player.create(playerdata: "player04", teamid: 4, position: "def", price: 2)
+      Player.create(playerdata: "player05", teamid: 5, position: "def", price: 2.5)
+      Player.create(playerdata: "player06", teamid: 1, position: "def", price: 3)
+      Player.create(playerdata: "player07", teamid: 2, position: "def", price: 3.5)
+      Player.create(playerdata: "player08", teamid: 3, position: "mid", price: 4)
+      Player.create(playerdata: "player09", teamid: 4, position: "mid", price: 4.5)
+      Player.create(playerdata: "player10", teamid: 5, position: "mid", price: 5)
+      Player.create(playerdata: "player11", teamid: 1, position: "mid", price: 5.5)
+      Player.create(playerdata: "player12", teamid: 2, position: "mid", price: 6)
+      Player.create(playerdata: "player13", teamid: 3, position: "att", price: 6.5)
+      Player.create(playerdata: "player14", teamid: 4, position: "att", price: 7)
+      Player.create(playerdata: "player15", teamid: 5, position: "att", price: 7.5)
+      Team.create(name: "team01")
+      Team.create(name: "team02")
+      Team.create(name: "team03")
+      Team.create(name: "team04")
+      Team.create(name: "team05")
+
+      expected_parsed_body = {
+        squad: {
+          gk: {name: "player01", teamid: 1, price: 0.5},
+          defenders: [{name: "player03", teamid: 3, price: 1.5},{name: "player04", teamid: 4, price: 2},{name: "player06", teamid: 1, price: 3},{name: "player07", teamid: 2, price: 3.5}],
+          midfielders: [{name: "player08", teamid: 3, price: 4},{name: "player10", teamid: 5, price: 5},{name: "player11", teamid: 1, price: 5.5},{name: "player12", teamid: 2, price: 6}],
+          attackers: [{name: "player13", teamid: 3, price: 6.5},{name: "player15", teamid: 5, price: 7.5}],
+          substitutes: {
+            gk: {name: "player02", teamid: 2, price: 1},
+            defenders: [{name: "player05", teamid: 5, price: 2.5}],
+            midfielders: [{name: "player09", teamid: 4, price: 4.5}],
+            attackers: [{name: "player14", teamid: 4, price: 7}]
+          }
+        },
+        playerids: [1,3,4,6,7,8,10,11,12,13,15,2,5,9,14],
+        formation: [1,4,4,2],
+        captain: {name: "player08", teamid: 3, price: 4},
+        vicecaptain: {name: "player10", teamid: 5, price: 5},
+        cash: 100.0
+      }
+
+      allow(Watir::Browser).to receive(:new).and_return(browser)
+      rows = [""]
+      15.times { rows.push(row) }
+      allow(browser).to receive_message_chain("table.rows") { rows }
+      allow(row).to receive_message_chain(:cells, :[], :link, :href)
+        .and_return("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15")
+
+      get getsquad_path(fplid: "000000")
+
+      expect(response.status).to eq(200)
+      expect(response.content_type).to eq(Mime::JSON)
+      expect(response.body).to eq(expected_parsed_body)
+
+    end
+
     it 'returns transferred players', type: :request do
       (1..5).each do |i|
         3.times do
@@ -45,19 +104,17 @@ describe 'API' do
   end
 
   # describe 'squad scraping' do
-  #   it 'scrapes the user\'s squad and returns details', type: :request do
-  #     Player.create(playerdata: "test_player", teamid: 1, position: "Goalkeeper", price: 5.5)
-  #     Team.create(name: "test_team")
-  #
-  #     allow(Watir::Browser).to receive(:new).and_return(browser)
-  #     allow(browser).to receive_message_chain("table.rows") { ["", row] }
-  #     allow(row).to receive_message_chain(:cells, :[], :link, :href) { "1" }
-  #
-  #     get getsquad_path(fplid: '0000000')
-  #     expect(response.status).to eq(200)
-  #     expect(response.content_type).to eq(Mime::JSON)
-  #     expect(response.body).to eq "[[\"test_player\",\"test_team\",\"Goalkeeper\",5.5]]"
-  #   end
+    # it 'scrapes the user\'s squad and returns details', type: :request do
+    #   Player.create(playerdata: "test_player", teamid: 1, position: "Goalkeeper", price: 5.5)
+    #   Team.create(name: "test_team")
+    #   allow(Watir::Browser).to receive(:new).and_return(browser)
+    #   allow(browser).to receive_message_chain("table.rows") { ["", row] }
+    #   allow(row).to receive_message_chain(:cells, :[], :link, :href) { "1" }
+    #   get getsquad_path(fplid: '0000000')
+    #   expect(response.status).to eq(200)
+    #   expect(response.content_type).to eq(Mime::JSON)
+    #   expect(response.body).to eq "[[\"test_player\",\"test_team\",\"Goalkeeper\",5.5]]"
+    # end
   #
   #   it 'should throw an error if fplid is not a number', type: :request do
   #     get getsquad_path(fplid: 'abcdef')
