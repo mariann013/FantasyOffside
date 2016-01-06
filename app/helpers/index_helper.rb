@@ -5,37 +5,64 @@ module IndexHelper
   def self.getOptimisedSquadJSON(squadArray, cash)
     transfers = transfers(squadArray, cash)
     squadArray = updateSquadForTransfers(squadArray, transfers)
-    # formation = pickFormation(squadArray)
-    # feed player projected and position
-    # optimum formation + team
-
+    updated_cash = calc_cash(transfers, cash).round(1)
+    lineup = pickLineup(squadArray)
+    # formation = getFormation(lineup)
     return {
-      squad: "",
+      squad: lineup,
       transfers: transfers,
       formation: "",
       captain: "",
       vicecaptain: "",
-      cash: ""
+      cash: updated_cash
     }
+  end
+
+  private
+
+  def self.pickLineup(squadArray)
+    squad_with_positions = {
+      Goalkeeper: [],
+      Defender: [],
+      Midfielder: [],
+      Forward: []
+    }
+    new_squad = squadArray.map { |playerid| Player.find(playerid)  }
+    new_squad.each do |player|
+      squad_with_positions[player.position.to_sym] << player
+    end
+    lineup = {
+      goalkeeper: nil,
+      defenders: [],
+      midfielders: [],
+      forwards: [],
+      substitutes: []
+    }
+    squad_with_positions[:Goalkeeper].sort! { |a, b| a.projected_points <=> b.projected_points }
+    lineup[:goalkeeper] = squad_with_positions[:Goalkeeper].pop
+    lineup[:substitutes] << squad_with_positions[:Goalkeeper].pop
+    squad_with_positions[:Defender].sort! { |a, b| a.projected_points <=> b.projected_points }
+    3.times{ lineup[:defenders] << squad_with_positions[:Defender].pop }
+    squad_with_positions[:Midfielder].sort! { |a, b| a.projected_points <=> b.projected_points }
+    3.times{ lineup[:midfielders] << squad_with_positions[:Midfielder].pop }
+    squad_with_positions[:Forward].sort! { |a, b| a.projected_points <=> b.projected_points }
+    lineup[:forwards] << squad_with_positions[:Forward].pop
+    remaining_players = squad_with_positions[:Defender]+squad_with_positions[:Midfielder]+squad_with_positions[:Forward]
+    remaining_players.sort! { |a, b| a.projected_points <=> b.projected_points }
+    3.times { lineup[:substitutes] << remaining_players.shift }
+    remaining_players.each do |player|
+      string = player.position
+      position = string.downcase.pluralize
+      lineup[position.to_sym] << player
+    end
+    return lineup
   end
 
 
 
-
-  private
-
-  # def self.pickFormation(squadArray)
-  #   i = 0
-  #   while i <= squadArray.length
-  #     Player.where(id: squadArray[i]).find_each do |player|
-  #
-  #       p player.projected_points
-  #     end
-  #     i += 1
-  #   end
-  #
-  # end
-
+  def self.calc_cash(transfers, cash)
+    cash.to_f + transfers[:out][:price].to_f - transfers[:in][:price].to_f
+  end
 
   def self.updateSquadForTransfers(squadArray, transfers)
     squadArray.delete(transfers[:out][:id])

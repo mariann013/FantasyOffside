@@ -85,17 +85,17 @@ describe 'API' do
     # end
 
     it 'returns optimised squad json', type: :request do
-      Player.create(id: 1, playerdata: "player01", teamid: 1, position: "Goalkeeper", price: 0.5, projected_points: 1)
-      Player.create(id: 3, playerdata: "player03", teamid: 3, position: "Defender", price: 1.5, projected_points: 1)
-      Player.create(id: 4, playerdata: "player04", teamid: 4, position: "Defender", price: 2, projected_points: 1)
-      Player.create(id: 6, playerdata: "player06", teamid: 1, position: "Defender", price: 3, projected_points: 1)
-      Player.create(id: 7, playerdata: "player07", teamid: 2, position: "Defender", price: 3.5, projected_points: 1)
+      Player.create(id: 1, playerdata: "player01", teamid: 1, position: "Goalkeeper", price: 0.5, projected_points: 2)
+      Player.create(id: 3, playerdata: "player03", teamid: 3, position: "Defender", price: 1.5, projected_points: 5)
+      Player.create(id: 4, playerdata: "player04", teamid: 4, position: "Defender", price: 2, projected_points: 4)
+      Player.create(id: 6, playerdata: "player06", teamid: 1, position: "Defender", price: 3, projected_points: 3)
+      Player.create(id: 7, playerdata: "player07", teamid: 2, position: "Defender", price: 3.5, projected_points: 3)
       Player.create(id: 8, playerdata: "player08", teamid: 3, position: "Midfielder", price: 4, projected_points: 3)
       Player.create(id: 10, playerdata: "player10", teamid: 5, position: "Midfielder", price: 5, projected_points: 2)
-      Player.create(id: 11, playerdata: "player11", teamid: 1, position: "Midfielder", price: 5.5, projected_points: 1)
-      Player.create(id: 12, playerdata: "player12", teamid: 2, position: "Midfielder", price: 6, projected_points: 1)
-      Player.create(id: 13, playerdata: "player13", teamid: 3, position: "Forward", price: 6.5, projected_points: 1)
-      Player.create(id: 17, playerdata: "player17", teamid: 6, position: "Forward", price: 8.5, projected_points: 2)
+      Player.create(id: 11, playerdata: "player11", teamid: 1, position: "Midfielder", price: 5.5, projected_points: 5)
+      Player.create(id: 12, playerdata: "player12", teamid: 2, position: "Midfielder", price: 6, projected_points: 4)
+      Player.create(id: 13, playerdata: "player13", teamid: 3, position: "Forward", price: 6.5, projected_points: 3)
+      Player.create(id: 17, playerdata: "player17", teamid: 6, position: "Forward", price: 8.5, projected_points: 3)
       Player.create(id: 2, playerdata: "player02", teamid: 2, position: "Goalkeeper", price: 1, projected_points: 1)
       Player.create(id: 15, playerdata: "player15", teamid: 5, position: "Forward", price: 7.5, projected_points: 1)
       Player.create(id: 5, playerdata: "player05", teamid: 5, position: "Defender", price: 2.5, projected_points: 1)
@@ -109,28 +109,28 @@ describe 'API' do
       Team.create(name: "team06")
       expected_optimised_parsed_body = {
         squad: {
-          Goalkeeper: {id: 1, playerdata: "player01", image: "shirt_1_1.png", teamname: "team01", teamid: 1, position: "Goalkeeper", price: 0.5, projected_points: 1},
-          Defenders: [
-            {id: 3, playerdata: "player03", image: "shirt_3.png", teamname: "team03", teamid: 3, position: "Defender", price: 1.5, projected_points: 1},
-            {id: 4, playerdata: "player04", image: "shirt_4.png", teamname: "team04", teamid: 4, position: "Defender", price: 2, projected_points: 1},
-            {id: 6, playerdata: "player06", image: "shirt_1.png", teamname: "team01", teamid: 1, position: "Defender", price: 3, projected_points: 1},
-            {id: 7, playerdata: "player07", image: "shirt_2.png", teamname: "team02", teamid: 2, position: "Defender", price: 3.5, projected_points: 1}
+          goalkeeper: {id: 1, playerdata: "player01", image: "shirt_1_1.png", teamname: "team01", teamid: 1, position: "Goalkeeper", price: 0.5, projected_points: 2},
+          defenders: [
+            {id: 3, playerdata: "player03", image: "shirt_3.png", teamname: "team03", teamid: 3, position: "Defender", price: 1.5, projected_points: 5},
+            {id: 4, playerdata: "player04", image: "shirt_4.png", teamname: "team04", teamid: 4, position: "Defender", price: 2, projected_points: 4},
+            {id: 6, playerdata: "player06", image: "shirt_1.png", teamname: "team01", teamid: 1, position: "Defender", price: 3, projected_points: 3},
+            {id: 7, playerdata: "player07", image: "shirt_2.png", teamname: "team02", teamid: 2, position: "Defender", price: 3.5, projected_points: 3}
           ],
-          Midfielders: [
+          midfielders: [
+            {id: 11, playerdata: "player11", image: "shirt_1.png", teamname: "team01", teamid: 1, position: "Midfielder", price: 5.5, projected_points: 5},
+            {id: 12, playerdata: "player12", image: "shirt_2.png", teamname: "team02", teamid: 2, position: "Midfielder", price: 6, projected_points: 4},
             {id: 8, playerdata: "player08", image: "shirt_3.png", teamname: "team03", teamid: 3, position: "Midfielder", price: 4, projected_points: 3},
-            {id: 10, playerdata: "player10", image: "shirt_5.png", teamname: "team05", teamid: 5, position: "Midfielder", price: 5, projected_points: 2},
-            {id: 11, playerdata: "player11", image: "shirt_1.png", teamname: "team01", teamid: 1, position: "Midfielder", price: 5.5, projected_points: 1},
-            {id: 12, playerdata: "player12", image: "shirt_2.png", teamname: "team02", teamid: 2, position: "Midfielder", price: 6, projected_points: 1}
+            {id: 10, playerdata: "player10", image: "shirt_5.png", teamname: "team05", teamid: 5, position: "Midfielder", price: 5, projected_points: 2}
           ],
-          Forwards: [
-            {id: 13, playerdata: "player13", image: "shirt_3.png", teamname: "team03", teamid: 3, position: "Forward", price: 6.5, projected_points: 1},
-            {id: 17, playerdata: "player17", image: "shirt_6.png", teamname: "team06", teamid: 6, position: "Forward", price: 8.5, projected_points: 2},
+          forwards: [
+            {id: 17, playerdata: "player17", image: "shirt_6.png", teamname: "team06", teamid: 6, position: "Forward", price: 8.5, projected_points: 3},
+            {id: 13, playerdata: "player13", image: "shirt_3.png", teamname: "team03", teamid: 3, position: "Forward", price: 6.5, projected_points: 3}
           ],
-          Substitutes: [
+          substitutes: [
             {id: 2, playerdata: "player02", image: "shirt_2_1.png", teamname: "team02", teamid: 2, position: "Goalkeeper", price: 1, projected_points: 1},
             {id: 5, playerdata: "player05", image: "shirt_5.png", teamname: "team05", teamid: 5, position: "Defender", price: 2.5, projected_points: 1},
-            {id: 9, playerdata: "player09", image: "shirt_4.png", teamname: "team04", teamid: 4, position: "Midfielder", price: 4.5, projected_points: 1},
-            {id: 14, playerdata: "player14", image: "shirt_4.png", teamname: "team04", teamid: 4, position: "Forward", price: 7, projected_points: 1}
+            {id: 14, playerdata: "player14", image: "shirt_4.png", teamname: "team04", teamid: 4, position: "Forward", price: 7, projected_points: 1},
+            {id: 9, playerdata: "player09", image: "shirt_4.png", teamname: "team04", teamid: 4, position: "Midfielder", price: 4.5, projected_points: 1}
           ]
         },
         transfers: {
