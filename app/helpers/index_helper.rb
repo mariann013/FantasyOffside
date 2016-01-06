@@ -3,7 +3,7 @@ module IndexHelper
   def self.getOptimisedSquadJSON(squadArray, cash)
     transfers = transfers(squadArray, cash)
     squadArray = updateSquadForTransfers(squadArray, transfers)
-    formation = pickFormation(squadArray)
+    # formation = pickFormation(squadArray)
     # feed player projected and position
     # optimum formation + team
 
@@ -24,17 +24,17 @@ module IndexHelper
 
   private
 
-  def self.pickFormation(squadArray)
-    i = 0
-    while i <= squadArray.length
-      Player.where(id: squadArray[i]).find_each do |player|
-
-        p player.projected_points
-      end
-      i += 1
-    end
-
-  end
+  # def self.pickFormation(squadArray)
+  #   i = 0
+  #   while i <= squadArray.length
+  #     Player.where(id: squadArray[i]).find_each do |player|
+  #
+  #       p player.projected_points
+  #     end
+  #     i += 1
+  #   end
+  #
+  # end
 
 
   def self.updateSquadForTransfers(squadArray, transfers)
