@@ -4,7 +4,6 @@ class IndexController < ApplicationController
 
   def getsquad
     fplid = params[:fplid]
-    p "FPLID: #{fplid}"
     if fplid && fplid.length > 0 && fplid !~ /\D/
     json = SquadScraper.getSquadJSON(fplid).to_json
       render json: json, status: :ok
@@ -18,9 +17,10 @@ class IndexController < ApplicationController
     if IndexHelper.parametersValid(params)
       squadArray = JSON.parse(params[:squad])
       cash = (params[:cash])
-      render json: IndexHelper.getOptimisedSquadJSON(squadArray, cash)
+      json = IndexHelper.getOptimisedSquadJSON(squadArray, cash).to_json
+      render json: json, status: :ok
     else
-      render json: "Invalid parameters", status: 400
+      render json: { error: "Invalid parameters" }, status: 400
     end
   end
 
