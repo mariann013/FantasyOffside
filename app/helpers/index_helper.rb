@@ -10,7 +10,6 @@ module IndexHelper
     formation = getFormation(lineup)
     captain = pickCaptain(squadArray)
     vicecaptain = pickViceCaptain(squadArray)
-    p vicecaptain
     return {
       squad: lineup,
       transfers: transfers,
@@ -73,7 +72,8 @@ module IndexHelper
     }
     new_squad = squadArray.map { |playerid| Player.find(playerid)  }
     new_squad.each do |player|
-      squad_with_positions[player.position.to_sym] << player
+      player = PlayerFormatter.format(player.id)
+      squad_with_positions[player[:position].to_sym] << player
     end
     lineup = {
       goalkeeper: nil,
@@ -82,20 +82,20 @@ module IndexHelper
       forwards: [],
       substitutes: []
     }
-    squad_with_positions[:Goalkeeper].sort! { |a, b| a.projected_points <=> b.projected_points }
+    squad_with_positions[:Goalkeeper].sort! { |a, b| a[:projected_points] <=> b[:projected_points] }
     lineup[:goalkeeper] = squad_with_positions[:Goalkeeper].pop
     lineup[:substitutes] << squad_with_positions[:Goalkeeper].pop
-    squad_with_positions[:Defender].sort! { |a, b| a.projected_points <=> b.projected_points }
+    squad_with_positions[:Defender].sort! { |a, b| a[:projected_points] <=> b[:projected_points] }
     3.times{ lineup[:defenders] << squad_with_positions[:Defender].pop }
-    squad_with_positions[:Midfielder].sort! { |a, b| a.projected_points <=> b.projected_points }
+    squad_with_positions[:Midfielder].sort! { |a, b| a[:projected_points] <=> b[:projected_points] }
     3.times{ lineup[:midfielders] << squad_with_positions[:Midfielder].pop }
-    squad_with_positions[:Forward].sort! { |a, b| a.projected_points <=> b.projected_points }
+    squad_with_positions[:Forward].sort! { |a, b| a[:projected_points] <=> b[:projected_points] }
     lineup[:forwards] << squad_with_positions[:Forward].pop
     remaining_players = squad_with_positions[:Defender]+squad_with_positions[:Midfielder]+squad_with_positions[:Forward]
-    remaining_players.sort! { |a, b| a.projected_points <=> b.projected_points }
+    remaining_players.sort! { |a, b| a[:projected_points] <=> b[:projected_points] }
     3.times { lineup[:substitutes] << remaining_players.shift }
     remaining_players.each do |player|
-      string = player.position
+      string = player[:position]
       position = string.downcase.pluralize
       lineup[position.to_sym] << player
     end
