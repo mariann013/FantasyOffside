@@ -21,7 +21,7 @@ module SquadScraper
 
   def self.scrapeSquad(fplid)
     squad = []
-    url = "http://fantasy.premierleague.com/entry/#{fplid}/event-history/16/"
+    url = "http://fantasy.premierleague.com/entry/#{fplid}/event-history/20/"
     browser = Watir::Browser.new :phantomjs
     browser.goto(url)
     rows = browser.table(:id, "ismTeamDisplayData").rows
