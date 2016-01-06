@@ -5,10 +5,11 @@ module SquadScraper
   def self.getSquadJSON(fplid)
     squad_ids = scrapeSquad(fplid)
     squadJSON = makeSquadArrayByPosition(squad_ids)
+    formation = getFormation(squadJSON)
     return {
       squad: squadJSON,
       playerids: squad_ids,
-      # formation: "",
+      formation: formation,
       # captain: "",
       # vicecaptain: "",
       cash: 5.2
@@ -30,6 +31,10 @@ module SquadScraper
     end
     browser.close
     squad
+  end
+
+  def self.getFormation(lineup)
+    formation = [1,lineup[:defenders].count, lineup[:midfielders].length, lineup[:forwards].length]
   end
 
 

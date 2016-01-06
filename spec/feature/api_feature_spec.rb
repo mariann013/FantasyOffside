@@ -63,7 +63,7 @@ describe 'API' do
           ]
         },
         playerids: [1,3,4,6,7,8,10,11,12,15,13,2,5,9,14],
-        # formation: [1,4,4,2],
+        formation: [1,4,4,2],
         # captain: {id: 8, playerdata: "player08", image: "shirt_3.png", teamname: "team03", teamid: 3, position: "Midfielder", price: 4.0, projected_points: 3},
         # vicecaptain: {id: 10, playerdata: "player10", image: "shirt_5.png", teamname: "team05", teamid: 5, position: "Midfielder", price: 5.0, projected_points: 2},
         cash: 5.2
