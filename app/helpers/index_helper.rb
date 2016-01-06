@@ -1,41 +1,112 @@
+require './lib/modules/player_json_formatter.rb'
+
 module IndexHelper
 
   def self.getOptimisedSquadJSON(squadArray, cash)
     transfers = transfers(squadArray, cash)
     squadArray = updateSquadForTransfers(squadArray, transfers)
-    # formation = pickFormation(squadArray)
-    # feed player projected and position
-    # optimum formation + team
-
+    updated_cash = calc_cash(transfers, cash).round(1)
+    lineup = pickLineup(squadArray)
+    formation = getFormation(lineup)
+    captain = pickCaptain(squadArray)
+    vicecaptain = pickViceCaptain(squadArray)
     return {
-      team: {
-        gk: "",
-        defenders: ["","","",""],
-        midfielders: ["","","",""],
-        attackers: ["",""],
-        substitutes: ["","","",""]
-      },
-      captain: "",
-      vicecaptain: "",
-      formation: "",
-      transfers: transfers
+      squad: lineup,
+      transfers: transfers,
+      formation: formation,
+      captain: captain,
+      vicecaptain: vicecaptain,
+      cash: updated_cash
     }
   end
 
   private
 
-  # def self.pickFormation(squadArray)
-  #   i = 0
-  #   while i <= squadArray.length
-  #     Player.where(id: squadArray[i]).find_each do |player|
-  #
-  #       p player.projected_points
-  #     end
-  #     i += 1
-  #   end
-  #
-  # end
 
+  def self.pickViceCaptain(squadArray)
+    i = 0
+    projected_pointsHash = {}
+    while i <= squadArray.length
+      Player.where(id: squadArray[i]).find_each do |player|
+          projected_pointsHash[player.id] = player.projected_points
+      end
+      i += 1
+    end
+    totalsquadArray = projected_pointsHash.sort_by {|_key, value| value }
+    firstplayer = totalsquadArray.last
+    totalsquadArray.delete(firstplayer)
+    secondplayer = totalsquadArray.last
+    totalsquadArray.delete(secondplayer)
+    thirdplayer = totalsquadArray.last
+    if PlayerFormatter.format(firstplayer[0])[:position] == "Goalkeeper" && PlayerFormatter.format(secondplayer[0])[:position] == "Goalkeeper"
+      PlayerFormatter.format(thirdplayer[0])
+    else
+      PlayerFormatter.format(secondplayer[0])
+    end
+  end
+
+  def self.pickCaptain(squadArray)
+    i = 0
+    projected_pointsHash = {}
+    while i <= squadArray.length
+      Player.where(id: squadArray[i]).find_each do |player|
+          projected_pointsHash[player.id] = player.projected_points
+      end
+      i += 1
+    end
+    newHash = projected_pointsHash.sort_by {|_key, value| value }.last
+    PlayerFormatter.format(newHash[0])
+  end
+
+  def self.getFormation(lineup)
+    formation = [1,lineup[:defenders].count, lineup[:midfielders].length, lineup[:forwards].length]
+  end
+
+
+  def self.pickLineup(squadArray)
+    squad_with_positions = {
+      Goalkeeper: [],
+      Defender: [],
+      Midfielder: [],
+      Forward: []
+    }
+    new_squad = squadArray.map { |playerid| Player.find(playerid)  }
+    new_squad.each do |player|
+      player = PlayerFormatter.format(player.id)
+      squad_with_positions[player[:position].to_sym] << player
+    end
+    lineup = {
+      goalkeeper: nil,
+      defenders: [],
+      midfielders: [],
+      forwards: [],
+      substitutes: []
+    }
+    squad_with_positions[:Goalkeeper].sort! { |a, b| a[:projected_points] <=> b[:projected_points] }
+    lineup[:goalkeeper] = squad_with_positions[:Goalkeeper].pop
+    lineup[:substitutes] << squad_with_positions[:Goalkeeper].pop
+    squad_with_positions[:Defender].sort! { |a, b| a[:projected_points] <=> b[:projected_points] }
+    3.times{ lineup[:defenders] << squad_with_positions[:Defender].pop }
+    squad_with_positions[:Midfielder].sort! { |a, b| a[:projected_points] <=> b[:projected_points] }
+    3.times{ lineup[:midfielders] << squad_with_positions[:Midfielder].pop }
+    squad_with_positions[:Forward].sort! { |a, b| a[:projected_points] <=> b[:projected_points] }
+    lineup[:forwards] << squad_with_positions[:Forward].pop
+    remaining_players = squad_with_positions[:Defender]+squad_with_positions[:Midfielder]+squad_with_positions[:Forward]
+    remaining_players.sort! { |a, b| a[:projected_points] <=> b[:projected_points] }
+    3.times { lineup[:substitutes] << remaining_players.shift }
+    remaining_players.each do |player|
+      string = player[:position]
+      position = string.downcase.pluralize
+      lineup[position.to_sym] << player
+    end
+    return lineup
+  end
+
+
+
+  def self.calc_cash(transfers, cash)
+    cash.to_f + transfers[:out][:price].to_f - transfers[:in][:price].to_f
+  end
 
   def self.updateSquadForTransfers(squadArray, transfers)
     squadArray.delete(transfers[:out][:id])
@@ -47,30 +118,21 @@ module IndexHelper
     i = 0
     while i <= squadArray.length
       Player.where(id: squadArray[i]).find_each do |player|
-        pointsHash[player.id] = player.projected_points
+        pointsHash[player.id] = player.projected_points/player.price
       end
       i += 1
     end
     newHash = pointsHash.sort_by {|_key, value| value }.first
-    playerOut = Player.find(newHash[0])
-    playerIn = getPlayerIn(squadArray, playerOut, cash)
+    playerInId = getPlayerInId(squadArray, newHash[0], cash)
+
     return {
-      out: {
-        id: playerOut.id,
-        name: playerOut.playerdata,
-        teamid: playerOut.teamid,
-        price: playerOut.price
-      },
-      in: {
-        id: playerIn.id,
-        name: playerIn.playerdata,
-        teamid: playerIn.teamid,
-        price: playerIn.price
-      }
+      out: PlayerFormatter.format(newHash[0]),
+      in: PlayerFormatter.format(playerInId)
     }
   end
 
-  def self.getPlayerIn(squad, playerOut, cash)
+  def self.getPlayerInId(squad, playerOutId, cash)
+      playerOut = Player.find(playerOutId)
       cashConstraint = playerOut.price + cash.to_f
       i = 0
       playerList = Player.order('projected_points desc')
@@ -79,7 +141,7 @@ module IndexHelper
         i += 1
         playerIn = playerList[i]
       end
-      playerIn
+      playerIn.id
   end
 
   def self.playerInIsInvalid(playerOut, playerIn, cashConstraint, squad)
@@ -108,13 +170,7 @@ module IndexHelper
     end
   end
 
-  def self.parametersValid(params)
-    if params[:squad] && params[:cash]
-      squadValid(params[:squad]) && cashValid(params[:cash])
-    else
-      false
-    end
-  end
+
 
   def self.squadContains(player, squad)
     squad.include? player.id
@@ -138,6 +194,15 @@ module IndexHelper
   end
 
   def self.cashValid(cash)
-    cash.length > 0 && cash !~ /\D/
+    cash.length > 0
+    # && cash !~ /\D/
+  end
+
+  def self.parametersValid(params)
+    if params[:squad] && params[:cash]
+      squadValid(params[:squad]) && cashValid(params[:cash])
+    else
+      false
+    end
   end
 end
