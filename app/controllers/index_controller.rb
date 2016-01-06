@@ -5,9 +5,11 @@ class IndexController < ApplicationController
   def getsquad
     fplid = params[:fplid]
     if fplid && fplid.length > 0 && fplid !~ /\D/
-      render json: SquadScraper.getSquadJSON(params[:fplid]), status: :ok
+    json = SquadScraper.getSquadJSON(fplid).to_json
+      render json: json, status: :ok
     else
-      render json: "Invalid team id number", status: 400
+      errJson = { error: "Invalid team id number" }.to_json
+      render json: errJson, status: 400
     end
   end
 
@@ -15,9 +17,10 @@ class IndexController < ApplicationController
     if IndexHelper.parametersValid(params)
       squadArray = JSON.parse(params[:squad])
       cash = (params[:cash])
-      render json: IndexHelper.getOptimisedSquadJSON(squadArray, cash)
+      json = IndexHelper.getOptimisedSquadJSON(squadArray, cash).to_json
+      render json: json, status: :ok
     else
-      render json: "Invalid parameters", status: 400
+      render json: { error: "Invalid parameters" }, status: 400
     end
   end
 

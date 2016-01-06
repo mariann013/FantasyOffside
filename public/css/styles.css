@@ -1,0 +1,14 @@
+.PlayerContainer1of4 {
+  display: inline-block;
+  margin: auto;
+  width: 24%;
+  min-height: 25px;
+}
+.PlayerContainer1of5 {
+  display: inline-block;
+  margin: auto;
+  width: 19%;
+  min-height: 25px;
+}
+.PitchRow {
+}

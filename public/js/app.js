@@ -1,1 +1,1 @@
-var fOffside = angular.module('FOffside' , []);
+var fOffside = angular.module('FOffside', []);
