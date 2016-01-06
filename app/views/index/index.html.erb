@@ -16,27 +16,45 @@
       </form>
     </div>
 
-    <div id=team>
-      <div>
-        {{Ctrl.goalkeeper}}
-      </div>
-      <div ng-repeat="defender in Ctrl.defenders">
-        {{defender}}
-      </div>
+    <table ng-show="Ctrl.showTable">
+      <tr>
+        <th>Name</th>
+        <th>Team</th>
+        <th>Position</th>
+      </tr>
+      <tr>
+        <td> {{ Ctrl.goalkeeper.playerdata }} </td>
+        <td> {{ Ctrl.goalkeeper.teamname }} </td>
+        <td> {{ Ctrl.goalkeeper.position }} </td>
+      <tr ng-repeat="defender in Ctrl.defenders">
+        <td> {{ defender.playerdata }} </td>
+        <td> {{ defender.teamname }} </td>
+        <td> {{ defender.position }} </td>
+      </tr>
+      <tr ng-repeat="midfielder in Ctrl.midfielders">
+        <td> {{ midfielder.playerdata }} </td>
+        <td> {{ midfielder.teamname }} </td>
+        <td> {{ midfielder.position }} </td>
+      </tr>
+      <tr ng-repeat="forward in Ctrl.forwards">
+        <td> {{ forward.playerdata }} </td>
+        <td> {{ forward.teamname }} </td>
+        <td> {{ forward.position }} </td>
+      </tr>
+    </table>
 
-      <div ng-repeat="midfielder in Ctrl.midfielders">
-        {{midfielder}}
-      </div>
-
-      <div ng-repeat="forward in Ctrl.forwards">
-        {{forward}}
-      </div>
-
-      <div ng-repeat="substitute in Ctrl.substitutes">
-        {{substitute}}
-      </div>
-    </div>
+    <table ng-show="Ctrl.showTable">
+      <tr>
+        <th>Name</th>
+        <th>Team</th>
+        <th>Position</th>
+      </tr>
+      <tr ng-repeat="substitute in Ctrl.substitutes">
+        <td> {{ substitute.playerdata }} </td>
+        <td> {{ substitute.teamname }} </td>
+        <td> {{ substitute.position }} </td>
+      </tr>
+    </table>
 
   </body>
-
 </html>

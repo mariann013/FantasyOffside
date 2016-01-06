@@ -4,6 +4,7 @@ fOffside.controller('FOffsideController', ['$http', function($http) {
 
   self.init = function() {
     self.showForm = true;
+    self.showTable = false;
   };
 
 
@@ -19,6 +20,7 @@ fOffside.controller('FOffsideController', ['$http', function($http) {
       self.forwards = res.data.squad.forwards;
       self.substitutes = res.data.squad.substitutes;
       self.showForm = false;
+      self.showTable = true;
     });
   };
 
