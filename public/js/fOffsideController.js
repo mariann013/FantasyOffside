@@ -21,8 +21,19 @@ fOffside.controller('FOffsideController', ['$http', function($http) {
       self.substitutes = res.data.squad.substitutes;
       self.showForm = false;
       self.showTable = true;
+      self.playerIds = res.data.playerids;
+      self.cash = res.data.cash;
     });
   };
+
+  self.optimiseSquad = function() {
+    $http({
+      url: '/optimiseSquad',
+      method: 'GET',
+      params: {squad: self.playerIds, cash: self.cash }
+    })
+  }
+  optimiseSquad
 
   self.init();
 
