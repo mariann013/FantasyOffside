@@ -13,76 +13,80 @@ describe 'API' do
 
   describe 'first test' do
 
-    # it 'scrapes the user\'s squad and returns it in json', type: :request do
-    #
-    #   Player.create(playerdata: "player01", teamid: 1, position: "Goalkeeper", price: 0.5)
-    #   Player.create(playerdata: "player02", teamid: 2, position: "Goalkeeper", price: 1)
-    #   Player.create(playerdata: "player03", teamid: 3, position: "Defender", price: 1.5)
-    #   Player.create(playerdata: "player04", teamid: 4, position: "Defender", price: 2)
-    #   Player.create(playerdata: "player05", teamid: 5, position: "Defender", price: 2.5)
-    #   Player.create(playerdata: "player06", teamid: 1, position: "Defender", price: 3)
-    #   Player.create(playerdata: "player07", teamid: 2, position: "Defender", price: 3.5)
-    #   Player.create(playerdata: "player08", teamid: 3, position: "Midfielder", price: 4)
-    #   Player.create(playerdata: "player09", teamid: 4, position: "Midfielder", price: 4.5)
-    #   Player.create(playerdata: "player10", teamid: 5, position: "Midfielder", price: 5)
-    #   Player.create(playerdata: "player11", teamid: 1, position: "Midfielder", price: 5.5)
-    #   Player.create(playerdata: "player12", teamid: 2, position: "Midfielder", price: 6)
-    #   Player.create(playerdata: "player13", teamid: 3, position: "Forward", price: 6.5)
-    #   Player.create(playerdata: "player14", teamid: 4, position: "Forward", price: 7)
-    #   Player.create(playerdata: "player15", teamid: 5, position: "Forward", price: 7.5)
-    #   Team.create(name: "team01")
-    #   Team.create(name: "team02")
-    #   Team.create(name: "team03")
-    #   Team.create(name: "team04")
-    #   Team.create(name: "team05")
-    #   Team.create(name: "team06")
-    #
-    #   expected_parsed_body = {
-    #     squad: {
-    #       Goalkeeper: {id: 1, playerdata: "player01", image: "shirt_1_1.png", teamname: "team01", teamid: 1, position: "Goalkeeper", price: 0.5, projected_points: 1},
-    #       Defenders: [
-    #         {id: 3, playerdata: "player03", image: "shirt_3.png", teamname: "team03", teamid: 3, position: "Defender", price: 1.5, projected_points: 1},
-    #         {id: 4, playerdata: "player04", image: "shirt_4.png", teamname: "team04", teamid: 4, position: "Defender", price: 2, projected_points: 1},
-    #         {id: 6, playerdata: "player06", image: "shirt_1.png", teamname: "team01", teamid: 1, position: "Defender", price: 3, projected_points: 1},
-    #         {id: 7, playerdata: "player07", image: "shirt_2.png", teamname: "team02", teamid: 2, position: "Defender", price: 3.5, projected_points: 1}
-    #       ],
-    #       Midfielders: [
-    #         {id: 8, playerdata: "player08", image: "shirt_3.png", teamname: "team03", teamid: 3, position: "Midfielder", price: 4, projected_points: 3},
-    #         {id: 10, playerdata: "player10", image: "shirt_5.png", teamname: "team05", teamid: 5, position: "Midfielder", price: 5, projected_points: 2},
-    #         {id: 11, playerdata: "player11", image: "shirt_1.png", teamname: "team01", teamid: 1, position: "Midfielder", price: 5.5, projected_points: 1},
-    #         {id: 12, playerdata: "player12", image: "shirt_2.png", teamname: "team02", teamid: 2, position: "Midfielder", price: 6, projected_points: 1}
-    #       ],
-    #       Forwards: [
-    #         {id: 13, playerdata: "player13", image: "shirt_3.png", teamname: "team03", teamid: 3, position: "Forward", price: 6.5, projected_points: 1},
-    #         {id: 15, playerdata: "player15", image: "shirt_5.png", teamname: "team05", teamid: 5, position: "Forward", price: 7.5, projected_points: 1}
-    #       ],
-    #       Substitutes: [
-    #         {id: 2, playerdata: "player02", image: "shirt_2_1.png", teamname: "team02", teamid: 2, position: "Goalkeeper", price: 1, projected_points: 1},
-    #         {id: 5, playerdata: "player05", image: "shirt_5.png", teamname: "team05", teamid: 5, position: "Defender", price: 2.5, projected_points: 1},
-    #         {id: 9, playerdata: "player09", image: "shirt_4.png", teamname: "team04", teamid: 4, position: "Midfielder", price: 4.5, projected_points: 1},
-    #         {id: 14, playerdata: "player14", image: "shirt_4.png", teamname: "team04", teamid: 4, position: "Forward", price: 7, projected_points: 1}
-    #       ]
-    #     },
-    #     playerids: [1,3,4,6,7,8,10,11,12,13,15,2,5,9,14],
-    #     formation: [1,4,4,2],
-    #     captain: {id: 8, playerdata: "player08", teamid: 3, position: "Midfielder", price: 4, projected_points: 3},
-    #     vicecaptain: {id: 10, playerdata: "player10", teamid: 5, position: "Midfielder", price: 5, projected_points: 2},
-    #     cash: 5.2
-    #   }
-    #
-    #   allow(Watir::Browser).to receive(:new).and_return(browser)
-    #   rows = [""]
-    #   15.times { rows.push(row) }
-    #   allow(browser).to receive_message_chain("table.rows") { rows }
-    #   allow(row).to receive_message_chain(:cells, :[], :link, :href)
-    #     .and_return("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15")
-    #
-    #   get getsquad_path(fplid: "000000")
-    #
-    #   expect(response.status).to eq(200)
-    #   expect(response.content_type).to eq(Mime::JSON)
-    #   expect(response.body).to eq(expected_parsed_body)
-    # end
+    it 'scrapes the user\'s squad and returns it in json', type: :request do
+      Player.create(id: 1, playerdata: "player01", teamid: 1, position: "Goalkeeper", price: 0.5, projected_points: 2)
+      Player.create(id: 3, playerdata: "player03", teamid: 3, position: "Defender", price: 1.5, projected_points: 5)
+      Player.create(id: 4, playerdata: "player04", teamid: 4, position: "Defender", price: 2, projected_points: 4)
+      Player.create(id: 6, playerdata: "player06", teamid: 1, position: "Defender", price: 3, projected_points: 3)
+      Player.create(id: 7, playerdata: "player07", teamid: 2, position: "Defender", price: 3.5, projected_points: 3)
+      Player.create(id: 8, playerdata: "player08", teamid: 3, position: "Midfielder", price: 4, projected_points: 3)
+      Player.create(id: 10, playerdata: "player10", teamid: 5, position: "Midfielder", price: 5, projected_points: 2)
+      Player.create(id: 11, playerdata: "player11", teamid: 1, position: "Midfielder", price: 5.5, projected_points: 5)
+      Player.create(id: 12, playerdata: "player12", teamid: 2, position: "Midfielder", price: 6, projected_points: 4)
+      Player.create(id: 13, playerdata: "player13", teamid: 3, position: "Forward", price: 6.5, projected_points: 3)
+      Player.create(id: 17, playerdata: "player17", teamid: 6, position: "Forward", price: 8.5, projected_points: 3)
+      Player.create(id: 2, playerdata: "player02", teamid: 2, position: "Goalkeeper", price: 1.0, projected_points: 1)
+      Player.create(id: 15, playerdata: "player15", teamid: 5, position: "Forward", price: 7.5, projected_points: 1)
+      Player.create(id: 5, playerdata: "player05", teamid: 5, position: "Defender", price: 2.5, projected_points: 1)
+      Player.create(id: 9, playerdata: "player09", teamid: 4, position: "Midfielder", price: 4.5, projected_points: 1)
+      Player.create(id: 14, playerdata: "player14", teamid: 4, position: "Forward", price: 7.0, projected_points: 1)
+      Team.create(name: "team01")
+      Team.create(name: "team02")
+      Team.create(name: "team03")
+      Team.create(name: "team04")
+      Team.create(name: "team05")
+      Team.create(name: "team06")
+      expected_parsed_body = {
+        squad: {
+          goalkeeper: {id: 1, playerdata: "player01", image: "shirt_1_1.png", teamname: "team01", teamid: 1, position: "Goalkeeper", price: 0.5, projected_points: 2},
+          defenders: [
+            {id: 3, playerdata: "player03", image: "shirt_3.png", teamname: "team03", teamid: 3, position: "Defender", price: 1.5, projected_points: 5},
+            {id: 4, playerdata: "player04", image: "shirt_4.png", teamname: "team04", teamid: 4, position: "Defender", price: 2.0, projected_points: 4},
+            {id: 6, playerdata: "player06", image: "shirt_1.png", teamname: "team01", teamid: 1, position: "Defender", price: 3.0, projected_points: 3},
+            {id: 7, playerdata: "player07", image: "shirt_2.png", teamname: "team02", teamid: 2, position: "Defender", price: 3.5, projected_points: 3}
+          ],
+          midfielders: [
+            {id: 8, playerdata: "player08", image: "shirt_3.png", teamname: "team03", teamid: 3, position: "Midfielder", price: 4.0, projected_points: 3},
+            {id: 10, playerdata: "player10", image: "shirt_5.png", teamname: "team05", teamid: 5, position: "Midfielder", price: 5.0, projected_points: 2},
+            {id: 11, playerdata: "player11", image: "shirt_1.png", teamname: "team01", teamid: 1, position: "Midfielder", price: 5.5, projected_points: 5},
+            {id: 12, playerdata: "player12", image: "shirt_2.png", teamname: "team02", teamid: 2, position: "Midfielder", price: 6.0, projected_points: 4}
+          ],
+          forwards: [
+            {id: 15, playerdata: "player15", image: "shirt_5.png", teamname: "team05", teamid: 5, position: "Forward", price: 7.5, projected_points: 1},
+            {id: 13, playerdata: "player13", image: "shirt_3.png", teamname: "team03", teamid: 3, position: "Forward", price: 6.5, projected_points: 3}
+          ],
+          substitutes: [
+            {id: 2, playerdata: "player02", image: "shirt_2_1.png", teamname: "team02", teamid: 2, position: "Goalkeeper", price: 1.0, projected_points: 1},
+            {id: 5, playerdata: "player05", image: "shirt_5.png", teamname: "team05", teamid: 5, position: "Defender", price: 2.5, projected_points: 1},
+            {id: 9, playerdata: "player09", image: "shirt_4.png", teamname: "team04", teamid: 4, position: "Midfielder", price: 4.5, projected_points: 1},
+            {id: 14, playerdata: "player14", image: "shirt_4.png", teamname: "team04", teamid: 4, position: "Forward", price: 7.0, projected_points: 1}
+          ]
+        },
+        playerids: [1,3,4,6,7,8,10,11,12,15,13,2,5,9,14],
+        formation: [1,4,4,2],
+        # captain: {id: 8, playerdata: "player08", image: "shirt_3.png", teamname: "team03", teamid: 3, position: "Midfielder", price: 4.0, projected_points: 3},
+        # vicecaptain: {id: 10, playerdata: "player10", image: "shirt_5.png", teamname: "team05", teamid: 5, position: "Midfielder", price: 5.0, projected_points: 2},
+        cash: 5.2
+      }
+
+      allow(Watir::Browser).to receive(:new).and_return(browser)
+      rows = [""]
+      15.times { rows.push(row) }
+      allow(browser).to receive_message_chain("table.rows") { rows }
+      allow(row).to receive_message_chain(:cells, :[], :link, :href)
+        .and_return("1", "3", "4", "6", "7", "8", "10", "11", "12", "15", "13", "2", "5", "9", "14")
+
+      get getsquad_path(fplid: "000000")
+
+      expected_parsed_body = JSON.parse(expected_parsed_body.to_json)
+
+      expect(response.status).to eq(200)
+      expect(response.content_type).to eq(Mime::JSON)
+      # p "1: #{expected_parsed_body}"
+      # p "/n"
+      # p "2: #{response.body}"
+      expect(expected_parsed_body).to eq(JSON.parse(response.body))
+    end
 
     it 'returns optimised squad json', type: :request do
       Player.create(id: 1, playerdata: "player01", teamid: 1, position: "Goalkeeper", price: 0.5, projected_points: 2)
