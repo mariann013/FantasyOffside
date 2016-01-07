@@ -31,7 +31,11 @@ fOffside.controller('FOffsideController', ['$http', function($http) {
     }).then(function(res) {
       self.displayingCurrentSquad = false;
       self.displayingOptimisedSquad = true;
+      self.parseCaptains(res.data);
+      self.parseTransfers(res.data);
       self.parsePlayers(res.data);
+      self.cash = res.data.cash;
+      console.log(res.data);
     });
   };
 
@@ -42,6 +46,17 @@ fOffside.controller('FOffsideController', ['$http', function($http) {
     self.forwards = data.squad.forwards;
     self.substitutes = data.squad.substitutes;
   };
+
+  self.parseCaptains = function(data) {
+    self.captain = data.captain;
+    self.viceCaptain = data.vicecaptain;
+  };
+
+  self.parseTransfers = function(data) {
+    self.transferOut = data.transfers.out;
+    self.transferIn = data.transfers.in;
+  };
+
 
   self.init();
 
