@@ -6,9 +6,14 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
-<body ng-controller="FOffsideController as Ctrl">
+<body ng-controller="FOffsideController as Ctrl" style="padding-bottom:10%;">
 
 <%= yield %>
 
+
+  <div class="navbar navbar-fixed-bottom col-sm-10 center-block">
+    <br>
+    <p>Solving 1st world problems</p>
+  </div>
 </body>
 </html>
