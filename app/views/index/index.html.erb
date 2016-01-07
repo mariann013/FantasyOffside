@@ -58,9 +58,9 @@
       <button ng-click="Ctrl.optimiseSquad()">Optimise Squad</button>
     </div>
 
-    <div ng-show="Ctrl.displayingOptimisedSquad" class="Pitch">
+    <div ng-show="Ctrl.displayingOptimisedSquad" id="Pitch">
 
-      <img src="/img/pitch.png"></img>
+      <!-- <img src="/img/pitch.png"></img> -->
 
       <!-- GKeeper -->
 
@@ -68,7 +68,7 @@
         <div class="PlayerContainer1of5"></div>
         <div class="PlayerContainer1of5"></div>
         <div class="PlayerContainer1of5">
-          <img src="/img/{{Ctrl.goalkeeper.image}}"></img>
+          <img src="/img/{{Ctrl.goalkeeper.image}}" class="ShirtImage"></img>
           {{Ctrl.goalkeeper.playerdata}}
         </div>
         <div class="PlayerContainer1of5"></div>
@@ -79,14 +79,14 @@
 
       <div class="PitchRow" ng-show="Ctrl.defenders.length === 5" >
         <div class="PlayerContainer1of5" ng-repeat="defender in Ctrl.defenders">
-          <img src="/img/{{defender.image}}"></img>
+          <img src="/img/{{defender.image}}" class="ShirtImage"></img>
           {{defender.playerdata}}
         </div>
       </div>
 
       <div class="PitchRow" ng-show="Ctrl.defenders.length === 4" >
         <div class="PlayerContainer1of4" ng-repeat="defender in Ctrl.defenders">
-          <img src="/img/{{defender.image}}"></img>
+          <img src="/img/{{defender.image}}" class="ShirtImage"></img>
           {{defender.playerdata}}
         </div>
       </div>
@@ -94,7 +94,7 @@
       <div class="PitchRow" ng-show="Ctrl.defenders.length === 3" >
         <div class="PlayerContainer1of5"></div>
         <div class="PlayerContainer1of5" ng-repeat="defender in Ctrl.defenders">
-          <img src="/img/{{defender.image}}"></img>
+          <img src="/img/{{defender.image}}" class="ShirtImage"></img>
           {{defender.playerdata}}
         </div>
         <div class="PlayerContainer1of5"></div>
@@ -104,14 +104,14 @@
 
       <div class="PitchRow" ng-show="Ctrl.midfielders.length === 5" >
         <div class="PlayerContainer1of5" ng-repeat="midfielder in Ctrl.midfielders">
-          <img src="/img/{{midfielder.image}}"></img>
+          <img src="/img/{{midfielder.image}}" class="ShirtImage"></img>
           {{midfielder.playerdata}}
         </div>
       </div>
 
       <div class="PitchRow" ng-show="Ctrl.midfielders.length === 4" >
         <div class="PlayerContainer1of4" ng-repeat="midfielder in Ctrl.midfielders">
-          <img src="/img/{{midfielder.image}}"></img>
+          <img src="/img/{{midfielder.image}}" class="ShirtImage"></img>
           {{midfielder.playerdata}}
         </div>
       </div>
@@ -119,7 +119,7 @@
       <div class="PitchRow" ng-show="Ctrl.midfielders.length === 3" >
         <div class="PlayerContainer1of5"></div>
         <div class="PlayerContainer1of5" ng-repeat="midfielder in Ctrl.midfielders">
-          <img src="/img/{{midfielder.image}}"></img>
+          <img src="/img/{{midfielder.image}}" class="ShirtImage"></img>
           {{midfielder.playerdata}}
         </div>
         <div class="PlayerContainer1of5"></div>
@@ -130,7 +130,7 @@
       <div class="PitchRow" ng-show="Ctrl.forwards.length === 3" >
         <div class="PlayerContainer1of5"></div>
         <div class="PlayerContainer1of5" ng-repeat="forward in Ctrl.forwards">
-          <img src="/img/{{forward.image}}"></img>
+          <img src="/img/{{forward.image}}" class="ShirtImage"></img>
           {{forward.playerdata}}
         </div>
         <div class="PlayerContainer1of5"></div>
@@ -139,7 +139,7 @@
       <div class="PitchRow" ng-show="Ctrl.forwards.length === 2" >
         <div class="PlayerContainer1of4"></div>
         <div class="PlayerContainer1of4" ng-repeat="forward in Ctrl.forwards">
-          <img src="/img/{{forward.image}}"></img>
+          <img src="/img/{{forward.image}}" class="ShirtImage"></img>
           {{forward.playerdata}}
         </div>
         <div class="PlayerContainer1of4"></div>
@@ -149,7 +149,7 @@
         <div class="PlayerContainer1of5"></div>
         <div class="PlayerContainer1of5"></div>
         <div class="PlayerContainer1of5" ng-repeat="forward in Ctrl.forwards">
-          <img src="/img/{{forward.image}}"></img>
+          <img src="/img/{{forward.image}}" class="ShirtImage"></img>
           {{forward.playerdata}}
         </div>
         <div class="PlayerContainer1of5"></div>

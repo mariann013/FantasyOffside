@@ -10,5 +10,11 @@
   width: 19%;
   min-height: 25px;
 }
-.PitchRow {
+.ShirtImage {
+  width: 80px;
+}
+#Pitch {
+  max-width: 490px;
+  background-image: url("/img/pitch.png");
+  background-repeat: no-repeat;
 }
