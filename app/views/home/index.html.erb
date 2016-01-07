@@ -1,21 +1,35 @@
-<div ng-show="Ctrl.showForm">
-      <form class="form-horizontal">
-        <input type="text" ng-model="Ctrl.inputId" placeholder="Please enter your team id">
-        <button class="btn" ng-click="Ctrl.getSquad()">Submit</button>
-      </form>
-    </div>
+<div class="container">
+  <div class="jumbotron">
+    <h1>Fantasy Offside</h1>
+    <p>Helping you own Fantasy Football.</p>
+  </div>
 
-    <div ng-show="Ctrl.displayingCurrentSquad">
-      <table >
-        <tr>
-          <th>Name</th>
-          <th>Team</th>
-          <th>Position</th>
-        </tr>
+  <div ng-show="Ctrl.showForm">
+    <form class="form-horizontal" role="form">
+      <div class="col-sm-6">
+        <input type="fplid" class="form-control" id="fplid" ng-model="Ctrl.inputId" placeholder="Enter your FPL id">
+      </div>
+      <div class="col-sm-6">
+        <button class="btn" ng-click="Ctrl.getSquad()">Submit</button>
+      </div>
+    </form>
+  </div>
+
+  <div ng-show="Ctrl.displayingCurrentSquad">
+
+    <h2>Your team</h2>
+    <table id="team-table" class="table">
+      <thead>
+        <th data-field="name" class="col-sm-4">Name</th>
+        <th data-field="team" class="col-sm-4">Team</th>
+        <th data-field="position" class="col-sm-4">Position</th>
+      </thead>
+      <tbody>
         <tr>
           <td> {{ Ctrl.goalkeeper.playerdata }} </td>
           <td> {{ Ctrl.goalkeeper.teamname }} </td>
           <td> {{ Ctrl.goalkeeper.position }} </td>
+        </tr>
         <tr ng-repeat="defender in Ctrl.defenders">
           <td> {{ defender.playerdata }} </td>
           <td> {{ defender.teamname }} </td>
@@ -31,51 +45,58 @@
           <td> {{ forward.teamname }} </td>
           <td> {{ forward.position }} </td>
         </tr>
-      </table>
-      <table>
-        <tr>
-          <th>Name</th>
-          <th>Team</th>
-          <th>Position</th>
-        </tr>
+      </tbody>
+    </table>
+    <h2>Your subs</h2>
+    <table id="subs-table" class="table">
+      <thead>
+        <th data-field="name" class="col-sm-4">Name</th>
+        <th data-field="team" class="col-sm-4">Team</th>
+        <th data-field="position" class="col-sm-4">Position</th>
+      </thead>
+      <tbody>
         <tr ng-repeat="substitute in Ctrl.substitutes">
           <td> {{ substitute.playerdata }} </td>
           <td> {{ substitute.teamname }} </td>
           <td> {{ substitute.position }} </td>
         </tr>
-      </table>
-      <button ng-click="Ctrl.optimiseSquad()">Optimise Squad</button>
+      </tbody>
+    </table>
+    <button ng-click="Ctrl.optimiseSquad()" class="center-block">Optimise Squad</button>
+  </div>
+
+  <div ng-show="Ctrl.displayingOptimisedSquad" class="Pitch">
+    <img src="/img/pitch.png"></img>
+
+    <!-- GKeeper -->
+    <img ng-src="/img/{{Ctrl.goalkeeper.image}}"></img>
+    {{Ctrl.goalkeeper.playerdata}}
+
+    <!-- Defenders -->
+    <div ng-repeat="defender in Ctrl.defenders">
+      <img ng-src="/img/{{defender.image}}"></img>
+      {{defender.playerdata}}
     </div>
 
-    <div ng-show="Ctrl.displayingOptimisedSquad" class="Pitch">
-      <img src="/img/pitch.png"></img>
-
-      <!-- GKeeper -->
-      <img ng-src="/img/{{Ctrl.goalkeeper.image}}"></img>
-      {{Ctrl.goalkeeper.playerdata}}
-
-      <!-- Defenders -->
-      <div ng-repeat="defender in Ctrl.defenders">
-        <img ng-src="/img/{{defender.image}}"></img>
-        {{defender.playerdata}}
-      </div>
-
-      <!-- Midfielders -->
-      <div ng-repeat="midfielder in Ctrl.midfielders">
-        <img ng-src="/img/{{midfielder.image}}"></img>
-        {{midfielder.playerdata}}
-      </div>
-
-      <!-- Forwards -->
-      <div ng-repeat="forward in Ctrl.forwards">
-        <img ng-src="/img/{{forward.image}}"></img>
-        {{forward.playerdata}}
-      </div>
-
-      <!-- Substitutes -->
-      <div ng-repeat="sub in Ctrl.substitutes">
-        <img ng-src="/img/{{sub.image}}"></img>
-        {{sub.playerdata}}
-      </div>
-
+    <!-- Midfielders -->
+    <div ng-repeat="midfielder in Ctrl.midfielders">
+      <img ng-src="/img/{{midfielder.image}}"></img>
+      {{midfielder.playerdata}}
     </div>
+
+    <!-- Forwards -->
+    <div ng-repeat="forward in Ctrl.forwards">
+      <img ng-src="/img/{{forward.image}}"></img>
+      {{forward.playerdata}}
+    </div>
+
+    <!-- Substitutes -->
+    <div ng-repeat="sub in Ctrl.substitutes">
+      <img ng-src="/img/{{sub.image}}"></img>
+      {{sub.playerdata}}
+    </div>
+
+  </div>
+
+
+</div>
