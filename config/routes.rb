@@ -1,11 +1,6 @@
 Rails.application.routes.draw do
-  root 'index#index'
 
   get 'getsquad' => 'index#getsquad', as: :getsquad
-
-  get 'transfers' => 'index#transfers', as: :transfers
-
-  get 'suggested_team' => 'index#suggested_team', as: :suggested_team
 
   get 'optimiseSquad' => 'index#optimiseSquad', as: :optimiseSquad
 
