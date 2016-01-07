@@ -1,2 +1,0 @@
-fOffside = angular.module('FOffside', [
-])

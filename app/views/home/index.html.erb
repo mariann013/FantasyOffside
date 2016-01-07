@@ -1,14 +1,81 @@
-<div class="container-fluid" ng-app="FOffside">
-  <div class="panel panel-success">
-    <div class="panel-heading">
-      <h1 ng-if="name">Hello, {{name}}</h1>
-    </div>
-    <div class="panel-body">
-      <form class="form-inline">
-        <div class="form-group">
-          <input class="form-control" type="text" placeholder="Enter your name" autofocus ng-model="name">
-        </div>
+<div ng-show="Ctrl.showForm">
+      <form class="form-horizontal">
+        <input type="text" ng-model="Ctrl.inputId" placeholder="Please enter your team id">
+        <button class="btn" ng-click="Ctrl.getSquad()">Submit</button>
       </form>
     </div>
-  </div>
-</div>
+
+    <div ng-show="Ctrl.displayingCurrentSquad">
+      <table >
+        <tr>
+          <th>Name</th>
+          <th>Team</th>
+          <th>Position</th>
+        </tr>
+        <tr>
+          <td> {{ Ctrl.goalkeeper.playerdata }} </td>
+          <td> {{ Ctrl.goalkeeper.teamname }} </td>
+          <td> {{ Ctrl.goalkeeper.position }} </td>
+        <tr ng-repeat="defender in Ctrl.defenders">
+          <td> {{ defender.playerdata }} </td>
+          <td> {{ defender.teamname }} </td>
+          <td> {{ defender.position }} </td>
+        </tr>
+        <tr ng-repeat="midfielder in Ctrl.midfielders">
+          <td> {{ midfielder.playerdata }} </td>
+          <td> {{ midfielder.teamname }} </td>
+          <td> {{ midfielder.position }} </td>
+        </tr>
+        <tr ng-repeat="forward in Ctrl.forwards">
+          <td> {{ forward.playerdata }} </td>
+          <td> {{ forward.teamname }} </td>
+          <td> {{ forward.position }} </td>
+        </tr>
+      </table>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Team</th>
+          <th>Position</th>
+        </tr>
+        <tr ng-repeat="substitute in Ctrl.substitutes">
+          <td> {{ substitute.playerdata }} </td>
+          <td> {{ substitute.teamname }} </td>
+          <td> {{ substitute.position }} </td>
+        </tr>
+      </table>
+      <button ng-click="Ctrl.optimiseSquad()">Optimise Squad</button>
+    </div>
+
+    <div ng-show="Ctrl.displayingOptimisedSquad" class="Pitch">
+      <img src="/img/pitch.png"></img>
+
+      <!-- GKeeper -->
+      <img ng-src="/img/{{Ctrl.goalkeeper.image}}"></img>
+      {{Ctrl.goalkeeper.playerdata}}
+
+      <!-- Defenders -->
+      <div ng-repeat="defender in Ctrl.defenders">
+        <img ng-src="/img/{{defender.image}}"></img>
+        {{defender.playerdata}}
+      </div>
+
+      <!-- Midfielders -->
+      <div ng-repeat="midfielder in Ctrl.midfielders">
+        <img ng-src="/img/{{midfielder.image}}"></img>
+        {{midfielder.playerdata}}
+      </div>
+
+      <!-- Forwards -->
+      <div ng-repeat="forward in Ctrl.forwards">
+        <img ng-src="/img/{{forward.image}}"></img>
+        {{forward.playerdata}}
+      </div>
+
+      <!-- Substitutes -->
+      <div ng-repeat="sub in Ctrl.substitutes">
+        <img ng-src="/img/{{sub.image}}"></img>
+        {{sub.playerdata}}
+      </div>
+
+    </div>
