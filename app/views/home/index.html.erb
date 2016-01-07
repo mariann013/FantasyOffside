@@ -65,38 +65,76 @@
     <button ng-click="Ctrl.optimiseSquad()" class="center-block">Optimise Squad</button>
   </div>
 
-  <div ng-show="Ctrl.displayingOptimisedSquad" class="Pitch">
-    <img src="/img/pitch.png"></img>
+  <div ng-show="Ctrl.displayingOptimisedSquad" class="container">
 
-    <!-- GKeeper -->
-    <img ng-src="/img/{{Ctrl.goalkeeper.image}}"></img>
-    {{Ctrl.goalkeeper.playerdata}}
+  <div class="col-xs-12 col-md-10 text-center">
+    <!-- <img src="/img/pitch.png"></img> -->
 
-    <!-- Defenders -->
-    <div ng-repeat="defender in Ctrl.defenders">
-      <img ng-src="/img/{{defender.image}}"></img>
-      {{defender.playerdata}}
+
+    <div class="row">
+      <!-- GKeeper -->
+      <div><img ng-src="/img/{{Ctrl.goalkeeper.image}}"></img></div>
+      <div>{{Ctrl.goalkeeper.playerdata}}</div>
     </div>
 
-    <!-- Midfielders -->
-    <div ng-repeat="midfielder in Ctrl.midfielders">
-      <img ng-src="/img/{{midfielder.image}}"></img>
-      {{midfielder.playerdata}}
+
+    <div class="row" style="overflow: scroll;">
+      <!-- Defenders -->
+      <div ng-repeat="defender in Ctrl.defenders" style="display:inline-block;">
+        <div><img ng-src="/img/{{defender.image}}"></img></div>
+        <div>{{defender.playerdata}}</div>
+      </div>
     </div>
 
-    <!-- Forwards -->
-    <div ng-repeat="forward in Ctrl.forwards">
-      <img ng-src="/img/{{forward.image}}"></img>
-      {{forward.playerdata}}
+
+    <div class="row" style="overflow:scroll;">
+      <!-- Midfielders -->
+      <div ng-repeat="midfielder in Ctrl.midfielders" style="display:inline-block;">
+        <div><img ng-src="/img/{{midfielder.image}}"></img></div>
+        <div>{{midfielder.playerdata}}</div>
+      </div>
     </div>
 
-    <!-- Substitutes -->
-    <div ng-repeat="sub in Ctrl.substitutes">
-      <img ng-src="/img/{{sub.image}}"></img>
-      {{sub.playerdata}}
+    <div class="row">
+      <!-- Forwards -->
+      <div ng-repeat="forward in Ctrl.forwards" style="display:inline-block;">
+        <div><img ng-src="/img/{{forward.image}}"></img></div>
+        <div>{{forward.playerdata}}</div>
+      </div>
     </div>
 
+    <div class="row">
+      <!-- Substitutes -->
+      <div ng-repeat="sub in Ctrl.substitutes" style="display:inline-block;">
+        <div><img ng-src="/img/{{sub.image}}"></img></div>
+        <div>{{sub.playerdata}}</div>
+      </div>
+    </div>
+
+    <!-- captains----->
+    <div class="row">
+      Captain: {{Ctrl.captain.playerdata}}
+    </div>
+    <div class="row">
+      Vice-Captain: {{Ctrl.viceCaptain.playerdata}}
+    </div>
+  </div>
+  <div class="col-xs-12 col-md-2 text-center">
+    <!-- transfers-->
+    <div class="row vertical-align" style="margin-top:150%;">
+      <img ng-src="/img/{{Ctrl.transferOut.image}}"></img>
+      <div>{{Ctrl.transferOut.playerdata}}</div>
+    </div>
+
+    <div class="row vertical-align">
+      <img ng-src="/img/{{Ctrl.transferIn.image}}"></img>
+      <div>{{Ctrl.transferIn.playerdata}}</div>
+    </div>
   </div>
 
+  <div class="navbar navbar-fixed-bottom col-sm-10 center-block">
+    <br>
+    <p>Solving 1st world problems</p>
+  </div>
 
 </div>
