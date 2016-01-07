@@ -1,18 +1,27 @@
-require "watir"
+require './lib/modules/squad_scraper.rb'
 
 class IndexController < ApplicationController
 
-  def squadid
-  @squad = []
-   url = "http://fantasy.premierleague.com/entry/#{params[:fplid]}/event-history/16/"
-   browser = Watir::Browser.new :phantomjs
-   browser.goto(url)
-   rows = browser.table(:id, "ismTeamDisplayData").rows
-   for i in 1..(rows.length-1)
-     link_str = rows[i].cells[1].link(:class, 'ismInfo ismViewProfile JS_ISM_INFO').href
-     @squad << link_str.split("#").last
-   end
-   browser.close
- end
+  def getsquad
+    fplid = params[:fplid]
+    if fplid && fplid.length > 0 && fplid !~ /\D/
+    json = SquadScraper.getSquadJSON(fplid).to_json
+      render json: json, status: :ok
+    else
+      errJson = { error: "Invalid team id number" }.to_json
+      render json: errJson, status: 400
+    end
+  end
+
+  def optimiseSquad
+    if IndexHelper.parametersValid(params)
+      squadArray = JSON.parse(params[:squad])
+      cash = (params[:cash])
+      json = IndexHelper.getOptimisedSquadJSON(squadArray, cash).to_json
+      render json: json, status: :ok
+    else
+      render json: { error: "Invalid parameters" }, status: 400
+    end
+  end
 
 end

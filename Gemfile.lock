@@ -39,6 +39,7 @@ GEM
     arel (6.0.3)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
+    bower-rails (0.10.0)
     builder (3.2.2)
     byebug (8.2.1)
     childprocess (0.5.8)
@@ -52,6 +53,7 @@ GEM
     coffee-script-source (1.10.0)
     commonwatir (4.0.0)
     concurrent-ruby (1.0.0)
+    database_cleaner (1.5.1)
     debug_inspector (0.0.2)
     diff-lcs (1.2.5)
     erubis (2.7.0)
@@ -184,8 +186,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bower-rails
   byebug
   coffee-rails (~> 4.1.0)
+  database_cleaner
   jbuilder (~> 2.0)
   jquery-rails
   pg (~> 0.15)

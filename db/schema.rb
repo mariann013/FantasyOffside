@@ -11,9 +11,60 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20160104121251) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "fixtures", force: :cascade do |t|
+    t.integer "game_week"
+    t.integer "opponent_id"
+    t.boolean "is_home"
+    t.integer "team_id"
+  end
+
+  add_index "fixtures", ["team_id"], name: "index_fixtures_on_team_id", using: :btree
+
+  create_table "player_gameweek_totals", force: :cascade do |t|
+    t.integer "playerid"
+    t.integer "gameweek"
+    t.integer "minutes_played"
+    t.integer "goals_scored"
+    t.integer "assists"
+    t.integer "clean_sheets"
+    t.integer "goals_conceded"
+    t.integer "own_goals"
+    t.integer "penalties_saved"
+    t.integer "penalties_missed"
+    t.integer "yellow_cards"
+    t.integer "red_cards"
+    t.integer "saves"
+    t.integer "bonus_points"
+    t.integer "total_points"
+  end
+
+  create_table "player_season_totals", force: :cascade do |t|
+    t.integer "goals_scored"
+    t.integer "goals_assisted"
+    t.integer "clean_sheets"
+    t.integer "goals_conceded"
+    t.integer "own_goals"
+    t.integer "yellow_cards"
+    t.integer "red_cards"
+    t.integer "minutes_played"
+  end
+
+  create_table "players", force: :cascade do |t|
+    t.string  "playerdata"
+    t.integer "teamid"
+    t.string  "position"
+    t.float   "price"
+    t.integer "projected_points"
+  end
+
+  create_table "teams", force: :cascade do |t|
+    t.string "name"
+  end
+
+  add_foreign_key "fixtures", "teams"
 end
