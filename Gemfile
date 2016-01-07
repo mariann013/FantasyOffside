@@ -1,5 +1,10 @@
 source 'https://rubygems.org'
 
+gem 'watir'
+gem 'watir-rails'
+gem 'sass', '3.2.19'
+gem 'bower-rails'
+
 gem 'rails', '4.2.5'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.15'
@@ -18,9 +23,6 @@ gem 'jquery-rails'
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
-
-gem 'watir'
-gem 'watir-rails'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
