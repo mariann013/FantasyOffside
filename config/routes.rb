@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  get 'home/index'
+
+  root 'home#index'
+
   get 'getsquad' => 'index#getsquad', as: :getsquad
 
   get 'optimiseSquad' => 'index#optimiseSquad', as: :optimiseSquad
