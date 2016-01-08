@@ -1,14 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="FOffside">
 <head>
   <title>FantasyOffside</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
-<body>
+<body ng-controller="FOffsideController as Ctrl" id="bootstrap-overrides">
 
 <%= yield %>
 
+  <div class="navbarTransparent navbar navbar-fixed-bottom col-sm-12 center-block">
+    <br>
+    <p>Solving 1st world problems...</p>
+  </div>
 </body>
 </html>
