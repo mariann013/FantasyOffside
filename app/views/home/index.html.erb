@@ -18,9 +18,15 @@
           <h4>Feeling too lazy to crunch the numbers? Enter the ID of your Fantasy Premier League team below and let us do the work for you...</h4>
           <form class="form-horizontal" role="form">
             <input class="form-control" id="fplid" ng-model="Ctrl.inputId" placeholder="e.g. 16322">
-            <button class="btn btn-primary" ng-click="Ctrl.getSquad()">
+            <button class="btn btn-primary" ng-click="Ctrl.getSquad()" ng-show="!Ctrl.scraping">
               <span class="glyphicon glyphicon-search"></span> Get current squad
             </button>
+
+            <button class="btn btn-primary btn-warning" ng-show="Ctrl.scraping">
+              <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...
+            </button>
+
+
           </form>
         </div>
       </div>
@@ -28,66 +34,74 @@
 
   <div ng-show="Ctrl.displayingCurrentSquad" class="container">
     <div class="col-sm-6">
-      <div class="well well-sm">
-        <h2>  Current starting 11:</h2>
-        <table id="team-table" class="table">
-          <thead>
-            <th data-field="shirtImage" class="col-sm-1"></th>
-            <th data-field="name" class="col-sm-4">Name</th>
-            <th data-field="team" class="col-sm-4">Team</th>
-            <th data-field="position" class="col-sm-3">Position</th>
-          </thead>
-          <tbody>
-            <tr>
-              <td> <img ng-src="/img/{{Ctrl.goalkeeper.image}}"style="zoom:25%"></img> </td>
-              <td> {{ Ctrl.goalkeeper.playerdata }} </td>
-              <td> {{ Ctrl.goalkeeper.teamname }} </td>
-              <td> {{ Ctrl.goalkeeper.position }} </td>
-            </tr>
-            <tr ng-repeat="defender in Ctrl.defenders">
-              <td> <img ng-src="/img/{{defender.image}}"style="zoom:25%"></img> </td>
-              <td> {{ defender.playerdata }} </td>
-              <td> {{ defender.teamname }} </td>
-              <td> {{ defender.position }} </td>
-            </tr>
-            <tr ng-repeat="midfielder in Ctrl.midfielders">
-              <td> <img ng-src="/img/{{midfielder.image}}"style="zoom:25%"></img> </td>
-              <td> {{ midfielder.playerdata }} </td>
-              <td> {{ midfielder.teamname }} </td>
-              <td> {{ midfielder.position }} </td>
-            </tr>
-            <tr ng-repeat="forward in Ctrl.forwards">
-              <td> <img ng-src="/img/{{forward.image}}"style="zoom:25%"></img> </td>
-              <td> {{ forward.playerdata }} </td>
-              <td> {{ forward.teamname }} </td>
-              <td> {{ forward.position }} </td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Current squad:</h3>
+        </div>
+        <div class="panel-body">
+          <table id="team-table" class="table">
+            <thead>
+              <th data-field="shirtImage" class="col-sm-1"></th>
+              <th data-field="name" class="col-sm-4">Name</th>
+              <th data-field="team" class="col-sm-4">Team</th>
+              <th data-field="position" class="col-sm-3">Position</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td> <img ng-src="/img/{{Ctrl.goalkeeper.image}}"style="zoom:25%"></img> </td>
+                <td> {{ Ctrl.goalkeeper.playerdata }} </td>
+                <td> {{ Ctrl.goalkeeper.teamname }} </td>
+                <td> {{ Ctrl.goalkeeper.position }} </td>
+              </tr>
+              <tr ng-repeat="defender in Ctrl.defenders">
+                <td> <img ng-src="/img/{{defender.image}}"style="zoom:25%"></img> </td>
+                <td> {{ defender.playerdata }} </td>
+                <td> {{ defender.teamname }} </td>
+                <td> {{ defender.position }} </td>
+              </tr>
+              <tr ng-repeat="midfielder in Ctrl.midfielders">
+                <td> <img ng-src="/img/{{midfielder.image}}"style="zoom:25%"></img> </td>
+                <td> {{ midfielder.playerdata }} </td>
+                <td> {{ midfielder.teamname }} </td>
+                <td> {{ midfielder.position }} </td>
+              </tr>
+              <tr ng-repeat="forward in Ctrl.forwards">
+                <td> <img ng-src="/img/{{forward.image}}"style="zoom:25%"></img> </td>
+                <td> {{ forward.playerdata }} </td>
+                <td> {{ forward.teamname }} </td>
+                <td> {{ forward.position }} </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
     <div class="col-sm-6">
-      <div class="well well-sm">
-        <h2>  Substitutes:</h2>
-        <table id="subs-table" class="table">
-          <thead>
-            <th data-field="shirtImage" class="col-sm-1"></th>
-            <th data-field="name" class="col-sm-4">Name</th>
-            <th data-field="team" class="col-sm-4">Team</th>
-            <th data-field="position" class="col-sm-3">Position</th>
-          </thead>
-          <tbody>
-            <tr ng-repeat="substitute in Ctrl.substitutes">
-              <td> <img ng-src="/img/{{substitute.image}}"style="zoom:25%"></img> </td>
-              <td> {{ substitute.playerdata }} </td>
-              <td> {{ substitute.teamname }} </td>
-              <td> {{ substitute.position }} </td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Substitutes:</h2>
+        </div>
+        <div class="panel-body">
+          <table id="subs-table" class="table">
+            <thead>
+              <th data-field="shirtImage" class="col-sm-1"></th>
+              <th data-field="name" class="col-sm-4">Name</th>
+              <th data-field="team" class="col-sm-4">Team</th>
+              <th data-field="position" class="col-sm-3">Position</th>
+            </thead>
+            <tbody>
+              <tr ng-repeat="substitute in Ctrl.substitutes">
+                <td> <img ng-src="/img/{{substitute.image}}"style="zoom:25%"></img> </td>
+                <td> {{ substitute.playerdata }} </td>
+                <td> {{ substitute.teamname }} </td>
+                <td> {{ substitute.position }} </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
       <button ng-click="Ctrl.optimiseSquad()" class="optimiseButton btn btn-primary btn-lg center-block">
-        <span class="glyphicon glyphicon-signal"></span> Optimise Squad!!
+        <span class="glyphicon glyphicon-signal"></span> Optimise Squad!
       </button>
     </div>
   </div>
@@ -95,45 +109,57 @@
   <div ng-show="Ctrl.displayingOptimisedSquad" class="container">
 
     <div class="col-sm-6 col-sm-push-2 text-center">
-    <div class="well well-sm">
-      <!-- GKeeper -->
-        <div class="row">
-          <div>
-            <div><img ng-src="/img/{{Ctrl.goalkeeper.image}}"style="zoom:75%"></img></div>
-            <div>{{Ctrl.goalkeeper.playerdata}}</div>
-          </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Optimised squad:</h3>
         </div>
+        <div class="panel-body">
+          <!-- GKeeper -->
+          <div class="row">
+            <div>
+              <div><img ng-src="/img/{{Ctrl.goalkeeper.image}}"style="zoom:75%"></img></div>
+              <div>{{Ctrl.goalkeeper.playerdata}}</div>
+            </div>
+          </div>
           <!-- Defenders -->
-        <div class="row player-row">
-          <div ng-repeat="defender in Ctrl.defenders" style="display:inline-block; padding:0 0.5em 0 0.5em;">
-            <div><img ng-src="/img/{{defender.image}}"style="zoom:75%"></img></div>
-            <div>{{defender.playerdata}}</div>
+          <div class="row player-row">
+            <div ng-repeat="defender in Ctrl.defenders" style="display:inline-block; padding:0 0.5em 0 0.5em;">
+              <div><img ng-src="/img/{{defender.image}}"style="zoom:75%"></img></div>
+              <div>{{defender.playerdata}}</div>
+            </div>
           </div>
-        </div>
-        <!-- Midfielders -->
-        <div class="row player-row">
-          <div ng-repeat="midfielder in Ctrl.midfielders" style="display:inline-block; padding:0 0.5em 0 0.5em;">
-            <div><img ng-src="/img/{{midfielder.image}}" style="zoom:75%"></img></div>
-            <div>{{midfielder.playerdata}}</div>
+          <!-- Midfielders -->
+          <div class="row player-row">
+            <div ng-repeat="midfielder in Ctrl.midfielders" style="display:inline-block; padding:0 0.5em 0 0.5em;">
+              <div><img ng-src="/img/{{midfielder.image}}" style="zoom:75%"></img></div>
+              <div>{{midfielder.playerdata}}</div>
+            </div>
           </div>
-        </div>
-        <!-- Forwards -->
-        <div class="row player-row">
-          <div ng-repeat="forward in Ctrl.forwards" style="display:inline-block; padding:0 0.5em 0 0.5em;">
-            <div><img ng-src="/img/{{forward.image}}" style="zoom:75%"></img></div>
-            <div>{{forward.playerdata}}</div>
-          </div>
-        </div>
-      </div>
-      <!-- Substitutes -->
-      <div class="well well-sm">
-        <div class="row">
-          <div ng-repeat="sub in Ctrl.substitutes" style="display:inline-block; padding:0 0.5em 0 0.5em;">
-            <div><img ng-src="/img/{{sub.image}}" style="zoom:75%"></img></div>
-            <div>{{sub.playerdata}}</div>
+          <!-- Forwards -->
+          <div class="row player-row">
+            <div ng-repeat="forward in Ctrl.forwards" style="display:inline-block; padding:0 0.5em 0 0.5em;">
+              <div><img ng-src="/img/{{forward.image}}" style="zoom:75%"></img></div>
+              <div>{{forward.playerdata}}</div>
+            </div>
           </div>
         </div>
       </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Substitutes:</h3>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div ng-repeat="sub in Ctrl.substitutes" style="display:inline-block; padding:0 0.5em 0 0.5em;">
+              <div><img ng-src="/img/{{sub.image}}" style="zoom:75%"></img></div>
+              <div>{{sub.playerdata}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- captains----->
       <div class="well captainContainer">
         <div class="row captainContainer">
@@ -144,6 +170,7 @@
         </div>
       </div>
     </div>
+
     <div class="col-sm-2 col-sm-push-2 text-center">
       <!-- transfers-->
       <div class="row vertical-align">

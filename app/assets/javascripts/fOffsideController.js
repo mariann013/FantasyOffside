@@ -6,10 +6,12 @@ fOffside.controller('FOffsideController', ['$http', function($http) {
     self.showForm = true;
     self.displayingCurrentSquad = false;
     self.displayingOptimisedSquad = false;
+    self.scraping = false;
   };
 
 
   self.getSquad = function() {
+    self.scraping = true;
     $http({
       url: '/getsquad',
       method: 'GET',
@@ -17,6 +19,7 @@ fOffside.controller('FOffsideController', ['$http', function($http) {
     }).then(function(res) {
       self.showForm = false;
       self.displayingCurrentSquad = true;
+      self.scraping = false;
       self.parsePlayers(res.data);
       self.playerIds = res.data.playerids;
       self.cash = res.data.cash;
