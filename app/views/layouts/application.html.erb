@@ -6,14 +6,13 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
-<body ng-controller="FOffsideController as Ctrl" style="background-color: #e6e6e6;">
+<body ng-controller="FOffsideController as Ctrl" id="bootstrap-overrides">
 
 <%= yield %>
 
-
-  <div class="navbar navbar-fixed-bottom col-sm-12 center-block" style="background-color: #969D81;">
+  <div class="navbarTransparent navbar navbar-fixed-bottom col-sm-12 center-block">
     <br>
-    <p>Solving 1st world problems</p>
+    <p>Solving 1st world problems...</p>
   </div>
 </body>
 </html>
