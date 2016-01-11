@@ -1,3 +1,79 @@
 .navbar {
   background-color: #eee;
 }
+<<<<<<< HEAD
+=======
+
+body {
+  padding-bottom: 70px;
+  background: url('/img/grass_texture241.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#bootstrap-overrides .jumbotron {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background: rgb(0, 0, 0); /* This is for ie8 and below */
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+}
+
+#bootstrap-overrides .navbar {
+  background: rgb(0, 0, 0); /* This is for ie8 and below */
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+}
+
+#bootstrap-overrides .btn {
+  background-color: rgba(255, 50, 50, 1);;
+}
+
+#bootstrap-overrides .well {
+  background: rgb(0, 0, 0); /* This is for ie8 and below */
+  background: rgba(0, 0, 0, 0.6);
+  border-color: black;
+  color: white;
+}
+
+#bootstrap-overrides .col-centered {
+  float: none;
+  margin-right: auto;
+  margin-left: auto;
+}
+#bootstrap-overrides .entryBox {
+  margin-top: 10%;
+  padding-top: 0%;
+  padding-bottom: 20px;
+  padding-left: 60px;
+  padding-right: 60px;
+}
+#bootstrap-overrides .form-control {
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+#bootstrap-overrides .transferText {
+  padding: 3px;
+  margin-right: 5%;
+  margin-left: 5%;
+  margin-bottom: 0;
+  margin-top: 2%;
+}
+
+#bootstrap-overrides .captainContainer {
+  // margin-top: 5%;
+}
+
+#bootstrap-overrides .container-centered {
+  float: none;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+#bootstrap-overrides .player-row {
+  margin-top: 20px;
+}
+>>>>>>> c3c76d3bc6b4eb35585f7a9c835251698e9f8edd

@@ -1,12 +1,11 @@
 Rails.application.routes.draw do
-  root 'index#index'
 
+  # Angular front end routes:
+  get 'home/index'
+  root 'home#index'
+
+  # API routes:
   get 'getsquad' => 'index#getsquad', as: :getsquad
-
-  get 'transfers' => 'index#transfers', as: :transfers
-
-  get 'suggested_team' => 'index#suggested_team', as: :suggested_team
-
   get 'optimiseSquad' => 'index#optimiseSquad', as: :optimiseSquad
 
   # The priority is based upon order of creation: first created -> highest priority.
