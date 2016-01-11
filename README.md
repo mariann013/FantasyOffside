@@ -1,7 +1,5 @@
 # FantasyOffside [ ![Codeship Status for mariann013/FantasyOffside](https://codeship.com/projects/dcb279c0-87bd-0133-f070-36a0203442ba/status?branch=master)](https://codeship.com/projects/123015)
 
-![logo](https://github.com/mariann013/FantasyOffside/master/public/img/logo.png)
-
 * Mari-Ann Meling - mariann013
 * Rob Stevenson - thisdotrob
 * Mateja Popovic - mateja683
