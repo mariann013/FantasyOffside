@@ -14,7 +14,7 @@ Helping you pick the best premiership fantasy football team - Fantasy Offside al
 
 ## The Techy Stuff
 Fantasy Offside was built by using python scripts to scrape the player data from the Fantasy Premiership website and then inputted into our PostGresQL database. 
-We then created our own Rails API and ruby logic to retrive the JSON data of the user's squad and run our algorythm against the players currently in the squad. 
+We then created our own Rails API and ruby logic to retrive the JSON data of the user's squad by using Watir to scrape this information from the offical fantasy premiership site and then runnning our algorithm against the players currently in the squad. 
 To present the information to the user we used AngularJS styled with Bootstrap. 
 
 ##Instalation Instructions
@@ -23,6 +23,7 @@ To present the information to the user we used AngularJS styled with Bootstrap.
  - Run bundle install
  - In psql createdb FantasyOffsie_development and FantasyOffside_test
  - Run rake db:auto-migrate
+ - Run rake scrape_players
  - Run bin/rails s in command line
 
 
